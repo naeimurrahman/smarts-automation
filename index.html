@@ -5,8 +5,6 @@
 <title>Smart’s Automation | WhatsApp Automation Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Smart’s Automation WhatsApp Automation Dashboard with lead capture.">
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -16,11 +14,12 @@
   --gray:#64748b;
   --light:#f8fafc;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 body{background:#fff;color:var(--dark);line-height:1.6}
 
 .container{max-width:1100px;margin:auto;padding:0 20px}
+section{padding:70px 0}
+
 .btn{
   background:var(--primary);
   color:#fff;
@@ -31,9 +30,8 @@ body{background:#fff;color:var(--dark);line-height:1.6}
   cursor:pointer;
   text-decoration:none;
 }
-section{padding:70px 0}
 
-/* ================= SUCCESS BAR ================= */
+/* SUCCESS BAR */
 #successBar{
   position:fixed;
   top:-120px;
@@ -41,12 +39,10 @@ section{padding:70px 0}
   width:100%;
   background:#ecfdf5;
   border-bottom:2px solid #bbf7d0;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
   z-index:9999;
-  transition:.6s ease;
+  transition:.5s ease;
 }
 #successBar.show{top:0}
-
 .success-content{
   max-width:1100px;
   margin:auto;
@@ -54,7 +50,7 @@ section{padding:70px 0}
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
+  gap:12px;
   flex-wrap:wrap;
 }
 .success-content a{
@@ -63,17 +59,15 @@ section{padding:70px 0}
   padding:10px 16px;
   border-radius:8px;
   text-decoration:none;
-  font-weight:600;
 }
 .success-content button{
   background:#e5e7eb;
   border:none;
   padding:10px 16px;
   border-radius:8px;
-  cursor:pointer;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 .hero{
   background:linear-gradient(180deg,#ecfdf5,#ffffff);
 }
@@ -85,13 +79,8 @@ section{padding:70px 0}
 }
 .hero h1{font-size:40px;line-height:1.2}
 .hero p{color:var(--gray);margin:18px 0 28px}
-.hero img{
-  width:100%;
-  border-radius:18px;
-  box-shadow:0 25px 60px rgba(0,0,0,.1);
-}
 
-/* ================= FEATURES ================= */
+/* FEATURES */
 .features{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -103,7 +92,7 @@ section{padding:70px 0}
   border-radius:16px;
 }
 
-/* ================= FORM ================= */
+/* FORM */
 .form-box{
   max-width:520px;
   margin:auto;
@@ -113,8 +102,7 @@ section{padding:70px 0}
   box-shadow:0 25px 60px rgba(0,0,0,.08);
 }
 .form-box input,
-.form-box textarea,
-.form-box select{
+.form-box textarea{
   width:100%;
   padding:14px;
   margin-bottom:15px;
@@ -122,14 +110,36 @@ section{padding:70px 0}
   border:1px solid #e5e7eb;
 }
 
-.wa-row{
+/* PHONE INPUT */
+.phone-row{
   display:flex;
   gap:10px;
+  position:relative;
 }
-.wa-row input[list]{width:40%}
-.wa-row input{width:60%}
+#countryInput{width:40%;cursor:pointer}
+#phoneInput{width:60%}
 
-/* ================= CTA ================= */
+#countryList{
+  position:absolute;
+  top:60px;
+  left:0;
+  width:40%;
+  max-height:260px;
+  overflow-y:auto;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  display:none;
+  z-index:999;
+}
+.country-item{
+  padding:10px;
+  cursor:pointer;
+  font-size:14px;
+}
+.country-item:hover{background:#f1f5f9}
+
+/* CTA */
 .cta{
   background:var(--dark);
   color:#fff;
@@ -137,7 +147,7 @@ section{padding:70px 0}
 }
 .cta p{color:#cbd5f5;margin:15px 0 30px}
 
-/* ================= FLOATING WA ================= */
+/* FLOATING WA */
 .wa-float{
   position:fixed;
   bottom:20px;
@@ -167,7 +177,7 @@ section{padding:70px 0}
   <div class="success-content">
     <div>✅ Thanks! Your request has been received successfully.</div>
     <div>
-      <a href="https://wa.me/8801742313132" target="_blank">Contact on WhatsApp</a>
+      <a href="https://wa.me/8801742313132" target="_blank">Contact WhatsApp</a>
       <button onclick="closeSuccess()">Close</button>
     </div>
   </div>
@@ -181,7 +191,6 @@ section{padding:70px 0}
       <p>Auto Reply, Lead Capture এবং Business Growth একসাথে।</p>
       <a href="https://wa.me/8801742313132" class="btn">Chat on WhatsApp 🚀</a>
     </div>
-    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900">
   </div>
 </section>
 
@@ -194,7 +203,7 @@ section{padding:70px 0}
   </div>
 </section>
 
-<!-- FORM SECTION (ADDED HERE) -->
+<!-- FORM -->
 <section>
   <div class="container">
     <div class="form-box">
@@ -209,43 +218,13 @@ section{padding:70px 0}
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="text" name="name" placeholder="Your Full Name" required>
 
-        <div class="wa-row">
-          <input list="codes" name="country_code" placeholder="Country Code" required>
-          <input type="text" name="whatsapp" placeholder="WhatsApp Number" required>
+        <div class="phone-row">
+          <input type="text" id="countryInput" name="country_code" placeholder="Country Code" required>
+          <input type="text" id="phoneInput" name="whatsapp" placeholder="WhatsApp Number" required>
+          <div id="countryList"></div>
         </div>
 
-        <datalist id="codes">
-          <option value="+1 USA">
-          <option value="+44 UK">
-          <option value="+880 Bangladesh">
-          <option value="+91 India">
-          <option value="+971 UAE">
-          <option value="+92 Pakistan">
-          <option value="+61 Australia">
-          <option value="+81 Japan">
-          <option value="+49 Germany">
-          <option value="+33 France">
-          <option value="+39 Italy">
-          <option value="+7 Russia">
-          <option value="+86 China">
-          <option value="+82 South Korea">
-          <option value="+90 Turkey">
-          <option value="+55 Brazil">
-          <option value="+234 Nigeria">
-          <option value="+27 South Africa">
-          <option value="+34 Spain">
-          <option value="+62 Indonesia">
-        </datalist>
-
-        <select name="business" required>
-          <option value="">Select Business Type</option>
-          <option>Ecommerce</option>
-          <option>Service</option>
-          <option>Agency</option>
-          <option>Education</option>
-          <option>Other</option>
-        </select>
-
+        <input type="text" name="business" placeholder="Business Type" required>
         <textarea name="message" placeholder="Message / Requirement"></textarea>
 
         <button class="btn" type="submit">Submit Request</button>
@@ -266,13 +245,65 @@ section{padding:70px 0}
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
 <script>
-const bar = document.getElementById("successBar");
-const form = document.getElementById("leadForm");
+/* ===== LOAD ALL WORLD COUNTRIES (195+) ===== */
+let countries=[];
 
-form.addEventListener("submit", ()=>{
+fetch("https://restcountries.com/v3.1/all")
+.then(res=>res.json())
+.then(data=>{
+  countries=data
+    .filter(c=>c.idd && c.idd.root)
+    .map(c=>{
+      const code=c.idd.root+(c.idd.suffixes?c.idd.suffixes[0]:"");
+      return {
+        name:c.name.common,
+        iso:c.cca2,
+        code:code,
+        flag:c.flag
+      };
+    })
+    .sort((a,b)=>a.name.localeCompare(b.name));
+});
+
+/* DROPDOWN LOGIC */
+const countryInput=document.getElementById("countryInput");
+const countryList=document.getElementById("countryList");
+
+countryInput.addEventListener("focus",()=>showList(""));
+countryInput.addEventListener("input",e=>showList(e.target.value));
+
+function showList(q){
+  countryList.innerHTML="";
+  countryList.style.display="block";
+  countries
+    .filter(c=>
+      c.name.toLowerCase().includes(q.toLowerCase()) ||
+      c.iso.toLowerCase().includes(q.toLowerCase()) ||
+      c.code.includes(q)
+    )
+    .forEach(c=>{
+      const div=document.createElement("div");
+      div.className="country-item";
+      div.textContent=`${c.flag} ${c.name} ${c.code}`;
+      div.onclick=()=>{
+        countryInput.value=c.code;
+        countryList.style.display="none";
+      };
+      countryList.appendChild(div);
+    });
+}
+
+document.addEventListener("click",e=>{
+  if(!countryInput.contains(e.target))
+    countryList.style.display="none";
+});
+
+/* SUCCESS BAR */
+const bar=document.getElementById("successBar");
+document.getElementById("leadForm").addEventListener("submit",()=>{
   setTimeout(()=>{
     bar.classList.add("show");
-    form.reset();
+    document.getElementById("leadForm").reset();
   },600);
 });
 function closeSuccess(){bar.classList.remove("show")}
