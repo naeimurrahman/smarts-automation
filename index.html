@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart’s Automation | WhatsApp Automation Dashboard</title>
+<title>Smart’s Automation | WhatsApp Automation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,9 +17,9 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 body{background:#fff;color:var(--dark);line-height:1.6}
 
-.container{max-width:1100px;margin:auto;padding:0 20px}
-section{padding:70px 0}
-
+/* layout */
+.container{max-width:1100px;margin:auto;padding:0 16px}
+section{padding:64px 0}
 .btn{
   background:var(--primary);
   color:#fff;
@@ -28,25 +28,24 @@ section{padding:70px 0}
   border:none;
   font-weight:600;
   cursor:pointer;
-  text-decoration:none;
 }
 
 /* SUCCESS BAR */
 #successBar{
   position:fixed;
-  top:-120px;
+  top:-140px;
   left:0;
   width:100%;
   background:#ecfdf5;
   border-bottom:2px solid #bbf7d0;
-  z-index:9999;
+  z-index:100000;
   transition:.5s ease;
 }
 #successBar.show{top:0}
 .success-content{
   max-width:1100px;
   margin:auto;
-  padding:18px 20px;
+  padding:16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -56,58 +55,41 @@ section{padding:70px 0}
 .success-content a{
   background:#25D366;
   color:#fff;
-  padding:10px 16px;
+  padding:10px 14px;
   border-radius:8px;
   text-decoration:none;
 }
 .success-content button{
   background:#e5e7eb;
   border:none;
-  padding:10px 16px;
+  padding:10px 14px;
   border-radius:8px;
 }
 
 /* HERO */
 .hero{
   background:linear-gradient(180deg,#ecfdf5,#ffffff);
+  text-align:center;
 }
-.hero-box{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
-  align-items:center;
-}
-.hero h1{font-size:40px;line-height:1.2}
-.hero p{color:var(--gray);margin:18px 0 28px}
-
-/* FEATURES */
-.features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:25px;
-}
-.feature{
-  background:var(--light);
-  padding:25px;
-  border-radius:16px;
-}
+.hero h1{font-size:38px;margin-bottom:12px}
+.hero p{color:var(--gray);margin-bottom:24px}
 
 /* FORM */
 .form-box{
   max-width:520px;
   margin:auto;
   background:#fff;
-  padding:35px;
+  padding:32px;
   border-radius:20px;
   box-shadow:0 25px 60px rgba(0,0,0,.08);
 }
-.form-box input,
-.form-box textarea{
+.form-box input,.form-box textarea{
   width:100%;
   padding:14px;
-  margin-bottom:15px;
+  margin-bottom:14px;
   border-radius:10px;
   border:1px solid #e5e7eb;
+  font-size:15px;
 }
 
 /* PHONE INPUT */
@@ -116,57 +98,52 @@ section{padding:70px 0}
   gap:10px;
   position:relative;
 }
-#countryInput{width:40%;cursor:pointer}
-#phoneInput{width:60%}
+#countryInput{width:42%}
+#phoneInput{width:58%}
 
+/* DROPDOWN */
 #countryList{
   position:absolute;
-  top:60px;
+  top:58px;
   left:0;
-  width:40%;
+  width:42%;
   max-height:260px;
   overflow-y:auto;
   background:#fff;
   border:1px solid #e5e7eb;
-  border-radius:10px;
+  border-radius:12px;
   display:none;
-  z-index:999;
+  z-index:100000;
+  -webkit-overflow-scrolling:touch;
 }
 .country-item{
-  padding:10px;
-  cursor:pointer;
+  padding:10px 12px;
   font-size:14px;
+  cursor:pointer;
 }
-.country-item:hover{background:#f1f5f9}
-
-/* CTA */
-.cta{
-  background:var(--dark);
-  color:#fff;
-  text-align:center;
+.country-item:hover{
+  background:#f1f5f9;
 }
-.cta p{color:#cbd5f5;margin:15px 0 30px}
 
 /* FLOATING WA */
 .wa-float{
   position:fixed;
   bottom:20px;
   right:20px;
-  width:60px;
-  height:60px;
+  width:58px;
+  height:58px;
   background:#25D366;
   color:#fff;
   border-radius:50%;
   text-align:center;
-  font-size:32px;
-  line-height:60px;
-  box-shadow:0 10px 25px rgba(37,211,102,.4);
-  z-index:999;
+  font-size:30px;
+  line-height:58px;
+  z-index:99999;
   text-decoration:none;
 }
 
-@media(max-width:768px){
-  .hero-box{grid-template-columns:1fr;text-align:center}
+@media(max-width:600px){
+  .hero h1{font-size:30px}
 }
 </style>
 </head>
@@ -175,9 +152,9 @@ section{padding:70px 0}
 <!-- SUCCESS BAR -->
 <div id="successBar">
   <div class="success-content">
-    <div>✅ Thanks! Your request has been received successfully.</div>
+    <div>✅ Thanks! We received your request.</div>
     <div>
-      <a href="https://wa.me/8801742313132" target="_blank">Contact WhatsApp</a>
+      <a href="https://wa.me/8801742313132" target="_blank">WhatsApp</a>
       <button onclick="closeSuccess()">Close</button>
     </div>
   </div>
@@ -185,21 +162,9 @@ section{padding:70px 0}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="container hero-box">
-    <div>
-      <h1>Smart’s Automation<br>WhatsApp Automation Dashboard</h1>
-      <p>Auto Reply, Lead Capture এবং Business Growth একসাথে।</p>
-      <a href="https://wa.me/8801742313132" class="btn">Chat on WhatsApp 🚀</a>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section>
-  <div class="container features">
-    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
-    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
-    <div class="feature"><h3>📈 Growth</h3><p>More conversion</p></div>
+  <div class="container">
+    <h1>Smart’s Automation</h1>
+    <p>WhatsApp Automation • Lead Capture • Growth</p>
   </div>
 </section>
 
@@ -207,7 +172,7 @@ section{padding:70px 0}
 <section>
   <div class="container">
     <div class="form-box">
-      <h2>Get Automation Setup</h2>
+      <h3 style="margin-bottom:10px">Get Automation Setup</h3>
       <p style="color:#64748b;margin-bottom:20px">We will contact you shortly</p>
 
       <form id="leadForm"
@@ -219,7 +184,7 @@ section{padding:70px 0}
         <input type="text" name="name" placeholder="Your Full Name" required>
 
         <div class="phone-row">
-          <input type="text" id="countryInput" name="country_code" placeholder="Country Code" required>
+          <input type="text" id="countryInput" name="country_code" placeholder="Country / Code" autocomplete="off" required>
           <input type="text" id="phoneInput" name="whatsapp" placeholder="WhatsApp Number" required>
           <div id="countryList"></div>
         </div>
@@ -235,26 +200,19 @@ section{padding:70px 0}
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <h2>Ready to Automate?</h2>
-  <p>Smart’s Automation – Simple & Smart</p>
-  <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
-</section>
-
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
 <script>
-/* ===== LOAD ALL WORLD COUNTRIES (195+) ===== */
-let countries=[];
+/* LOAD WORLD COUNTRIES */
+let countries = [];
 
 fetch("https://restcountries.com/v3.1/all")
-.then(res=>res.json())
+.then(r=>r.json())
 .then(data=>{
-  countries=data
+  countries = data
     .filter(c=>c.idd && c.idd.root)
     .map(c=>{
-      const code=c.idd.root+(c.idd.suffixes?c.idd.suffixes[0]:"");
+      const code = c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "");
       return {
         name:c.name.common,
         iso:c.cca2,
@@ -269,33 +227,37 @@ fetch("https://restcountries.com/v3.1/all")
 const countryInput=document.getElementById("countryInput");
 const countryList=document.getElementById("countryList");
 
-countryInput.addEventListener("focus",()=>showList(""));
-countryInput.addEventListener("input",e=>showList(e.target.value));
-
-function showList(q){
+function showList(q=""){
   countryList.innerHTML="";
-  countryList.style.display="block";
+  const v=q.toLowerCase();
   countries
-    .filter(c=>
-      c.name.toLowerCase().includes(q.toLowerCase()) ||
-      c.iso.toLowerCase().includes(q.toLowerCase()) ||
-      c.code.includes(q)
+    .filter(c =>
+      c.name.toLowerCase().includes(v) ||
+      c.iso.toLowerCase().includes(v) ||
+      c.code.includes(v)
     )
     .forEach(c=>{
-      const div=document.createElement("div");
-      div.className="country-item";
-      div.textContent=`${c.flag} ${c.name} ${c.code}`;
-      div.onclick=()=>{
+      const d=document.createElement("div");
+      d.className="country-item";
+      d.textContent=`${c.flag} ${c.name} ${c.code}`;
+      d.onclick=()=>{
         countryInput.value=c.code;
         countryList.style.display="none";
       };
-      countryList.appendChild(div);
+      countryList.appendChild(d);
     });
+  countryList.style.display="block";
 }
 
+/* MOBILE + DESKTOP EVENTS */
+countryInput.addEventListener("focus",()=>showList());
+countryInput.addEventListener("input",e=>showList(e.target.value));
+countryInput.addEventListener("touchstart",()=>showList());
+
 document.addEventListener("click",e=>{
-  if(!countryInput.contains(e.target))
+  if(!countryInput.contains(e.target) && !countryList.contains(e.target)){
     countryList.style.display="none";
+  }
 });
 
 /* SUCCESS BAR */
