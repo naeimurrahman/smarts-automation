@@ -5,119 +5,34 @@
 <title>Smart’s Automation | WhatsApp Automation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- =================================================
+     GLOBAL CSS (ALL SECTIONS)
+================================================= -->
 <style>
-/* ================= GLOBAL ================= */
 :root{
   --green:#25D366;
   --dark:#0f172a;
   --gray:#64748b;
-  --light:#f8fafc;
+  --bg:#f8fafc;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#fff;color:var(--dark);line-height:1.6}
+
 .container{max-width:1100px;margin:auto;padding:0 20px}
-section{padding:80px 0}
+section{padding:70px 0}
+
 .btn{
   background:var(--green);
   color:#fff;
-  padding:14px 28px;
-  border-radius:12px;
+  padding:14px 26px;
+  border-radius:10px;
   border:none;
   font-weight:600;
   cursor:pointer;
-}
-.btn:disabled{opacity:.6}
-
-/* ================= HERO ================= */
-.hero{
-  background:linear-gradient(180deg,#ecfdf5,#ffffff);
-  text-align:center;
-}
-.hero h1{font-size:44px;margin-bottom:12px}
-.hero p{color:var(--gray);margin-bottom:26px}
-
-/* ================= FEATURES ================= */
-.features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:26px;
-}
-.feature{
-  background:var(--light);
-  padding:28px;
-  border-radius:18px;
-  font-size:18px;
-  font-weight:500;
-  text-align:center;
+  text-decoration:none;
 }
 
-/* ================= FORM ================= */
-.form-wrap{
-  max-width:520px;
-  margin:auto;
-  background:#fff;
-  padding:36px;
-  border-radius:22px;
-  box-shadow:0 30px 70px rgba(0,0,0,.12);
-}
-.form-wrap input,
-.form-wrap textarea,
-.form-wrap select{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border-radius:10px;
-  border:1px solid #e5e7eb;
-  font-size:15px;
-}
-
-/* Wizard */
-.progress{
-  height:6px;
-  background:#e5e7eb;
-  border-radius:10px;
-  overflow:hidden;
-}
-.progress-bar{
-  height:100%;
-  width:33%;
-  background:var(--green);
-  transition:.3s;
-}
-.step-text{
-  text-align:center;
-  color:var(--gray);
-  margin:14px 0 20px;
-  font-size:14px;
-}
-.step{display:none}
-.step.active{display:block}
-
-.nav{
-  display:flex;
-  gap:10px;
-}
-.ghost{
-  flex:1;
-  background:#e5e7eb;
-  border:none;
-  border-radius:10px;
-  padding:14px;
-  cursor:pointer;
-}
-
-/* ================= CTA ================= */
-.cta{
-  background:var(--dark);
-  color:#fff;
-  text-align:center;
-}
-.cta p{
-  color:#cbd5f5;
-  margin:16px 0 30px;
-}
-
-/* ================= FLOATING ================= */
+/* FLOATING WHATSAPP */
 .wa-float{
   position:fixed;
   bottom:20px;
@@ -131,134 +46,215 @@ section{padding:80px 0}
   font-size:32px;
   line-height:60px;
   text-decoration:none;
+  z-index:9999;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HERO ================= -->
+<!-- =================================================
+     SECTION 1 : HERO
+================================================= -->
 <section class="hero">
   <div class="container">
     <h1>Smart’s Automation</h1>
     <p>WhatsApp Automation • Lead Capture • Business Growth</p>
-    <button class="btn" onclick="document.getElementById('lead').scrollIntoView({behavior:'smooth'})">
-      Get Started
-    </button>
+    <a href="#lead" class="btn">Get Started</a>
   </div>
 </section>
 
-<!-- ================= FEATURES ================= -->
+<style>
+.hero{
+  background:linear-gradient(180deg,#ecfdf5,#ffffff);
+  text-align:center;
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{color:var(--gray);margin-bottom:24px}
+@media(max-width:600px){
+  .hero h1{font-size:30px}
+}
+</style>
+
+<!-- =================================================
+     SECTION 2 : FEATURES
+================================================= -->
 <section>
   <div class="container features">
-    <div class="feature">📊 Smart Dashboard</div>
-    <div class="feature">🤖 Auto Reply System</div>
-    <div class="feature">📈 Business Growth</div>
+    <div class="feature">
+      <h3>📊 Dashboard</h3>
+      <p>All leads in one place</p>
+    </div>
+    <div class="feature">
+      <h3>🤖 Auto Reply</h3>
+      <p>24/7 WhatsApp & Email response</p>
+    </div>
+    <div class="feature">
+      <h3>📈 Growth</h3>
+      <p>Higher conversion rate</p>
+    </div>
   </div>
 </section>
 
-<!-- ================= FORM (UPDATED) ================= -->
+<style>
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+.feature{
+  background:var(--bg);
+  padding:26px;
+  border-radius:16px;
+}
+</style>
+
+<!-- =================================================
+     SECTION 3 : LEAD FORM
+================================================= -->
 <section id="lead">
   <div class="container">
     <div class="form-wrap">
+      <h2 style="text-align:center;margin-bottom:6px">
+        Get Automation Setup
+      </h2>
+      <p style="text-align:center;color:#64748b;margin-bottom:18px">
+        We will contact you shortly
+      </p>
 
-      <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <div class="step-text" id="stepText">Step 1 of 3</div>
+      <form id="leadForm">
+        <input type="email" placeholder="Email Address" required>
+        <input type="text" placeholder="Full Name" required>
+        <input type="text" placeholder="WhatsApp Number" required>
 
-      <form id="wizardForm">
+        <select required>
+          <option value="">Select Business Type</option>
+          <option>Agency</option>
+          <option>E-commerce</option>
+          <option>Service Provider</option>
+          <option>Local Business</option>
+        </select>
 
-        <!-- STEP 1 -->
-        <div class="step active">
-          <input id="name" type="text" placeholder="Full Name" required>
-          <input id="email" type="email" placeholder="Email Address" required>
-          <button type="button" class="btn" onclick="nextStep()">Continue</button>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="step">
-          <input id="country" type="text" placeholder="+880 Bangladesh" required>
-          <input id="phone" type="tel" placeholder="WhatsApp Number" required>
-          <div class="nav">
-            <button type="button" class="ghost" onclick="prevStep()">Go back</button>
-            <button type="button" class="btn" onclick="nextStep()">Continue</button>
-          </div>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="step">
-          <select id="business" required>
-            <option value="">Select Business Type</option>
-            <option>Agency</option>
-            <option>E-commerce</option>
-            <option>Service Provider</option>
-            <option>Local Business</option>
-            <option>Personal Brand</option>
-          </select>
-          <textarea placeholder="Message / Requirement"></textarea>
-          <div class="nav">
-            <button type="button" class="ghost" onclick="prevStep()">Go back</button>
-            <button type="submit" class="btn">Submit</button>
-          </div>
-        </div>
-
+        <textarea placeholder="Message / Requirement"></textarea>
+        <button type="submit">Submit Request</button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- ================= CTA ================= -->
+<style>
+.form-wrap{
+  max-width:520px;
+  margin:auto;
+  background:#fff;
+  padding:34px;
+  border-radius:20px;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
+}
+.form-wrap input,
+.form-wrap textarea,
+.form-wrap select,
+.form-wrap button{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  font-size:15px;
+}
+.form-wrap button{
+  background:var(--green);
+  color:#fff;
+  font-weight:600;
+  border:none;
+}
+</style>
+
+<!-- =================================================
+     SECTION 4 : CTA
+================================================= -->
 <section class="cta">
   <h2>Ready to Automate?</h2>
   <p>Smart’s Automation – Simple & Smart</p>
-  <button class="btn" onclick="document.getElementById('lead').scrollIntoView({behavior:'smooth'})">
-    Start Now
-  </button>
+  <a href="https://wa.me/8801742313132" class="btn">
+    Start on WhatsApp
+  </a>
 </section>
 
+<style>
+.cta{
+  background:var(--dark);
+  color:#fff;
+  text-align:center;
+}
+.cta p{
+  color:#cbd5f5;
+  margin:15px 0 30px;
+}
+</style>
+
+<!-- =================================================
+     FLOATING WHATSAPP BUTTON
+================================================= -->
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
-<!-- ================= JS ================= -->
+<!-- =================================================
+     SECTION 5 : THANK YOU MODAL + JS
+================================================= -->
+<div id="modal">
+  <div class="modal-box">
+    <h3>🎉 Thank You!</h3>
+    <p>Your request has been received.</p>
+    <a href="https://wa.me/8801742313132">💬 Contact on WhatsApp</a>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<style>
+#modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+.modal-box{
+  background:#fff;
+  padding:26px;
+  border-radius:18px;
+  width:90%;
+  max-width:360px;
+  text-align:center;
+}
+.modal-box a{
+  display:block;
+  background:var(--green);
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
+  text-decoration:none;
+}
+.modal-box button{
+  background:#e5e7eb;
+  margin-top:10px;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+}
+</style>
+
 <script>
-let step = 0;
-const steps = document.querySelectorAll(".step");
-const bar = document.getElementById("progressBar");
-const text = document.getElementById("stepText");
-
-function updateUI(){
-  steps.forEach((s,i)=>s.classList.toggle("active",i===step));
-  bar.style.width = ((step+1)/steps.length)*100 + "%";
-  text.innerText = `Step ${step+1} of ${steps.length}`;
+document.getElementById("leadForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  document.getElementById("modal").style.display="flex";
+  this.reset();
+});
+function closeModal(){
+  document.getElementById("modal").style.display="none";
 }
-
-function validateStep(){
-  const inputs = steps[step].querySelectorAll("input, select");
-  for(const i of inputs){
-    if(!i.checkValidity()){
-      i.reportValidity();
-      return false;
-    }
-  }
-  return true;
-}
-
-function nextStep(){
-  if(!validateStep()) return;
-  if(step < steps.length-1){
-    step++;
-    updateUI();
-  }
-}
-
-function prevStep(){
-  if(step > 0){
-    step--;
-    updateUI();
-  }
-}
-
-updateUI();
 </script>
 
 </body>
