@@ -5,11 +5,7 @@
 <title>Smart’s Automation | WhatsApp Automation Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- SEO -->
-<meta name="description" content="Smart’s Automation WhatsApp Automation Dashboard with auto reply and lead capture.">
-<meta property="og:title" content="Smart’s Automation – WhatsApp Automation Dashboard">
-<meta property="og:description" content="Automate WhatsApp replies, capture leads and grow faster.">
-<meta property="og:type" content="website">
+<meta name="description" content="Smart’s Automation WhatsApp Automation Dashboard with lead capture.">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -26,7 +22,7 @@ body{background:#fff;color:var(--dark);line-height:1.6}
 .btn{
   background:var(--primary);color:#fff;
   padding:14px 26px;border-radius:10px;
-  border:none;font-weight:600
+  border:none;font-weight:600;cursor:pointer
 }
 section{padding:70px 0}
 
@@ -57,9 +53,21 @@ section{padding:70px 0}
   padding:35px;border-radius:20px;
   box-shadow:0 25px 60px rgba(0,0,0,.08)
 }
-.form-box input,.form-box textarea{
+.form-box input,.form-box textarea,.form-box select{
   width:100%;padding:14px;margin-bottom:15px;
   border-radius:10px;border:1px solid #e5e7eb
+}
+
+/* WhatsApp row */
+.wa-row{
+  display:flex;
+  gap:10px;
+}
+.wa-row select{
+  width:40%;
+}
+.wa-row input{
+  width:60%;
 }
 
 /* CTA */
@@ -111,14 +119,46 @@ section{padding:70px 0}
       <h2>Get Automation Setup</h2>
       <p style="color:#64748b;margin-bottom:20px">We will contact you shortly</p>
 
-      <form id="leadForm">
-        <input type="email" id="email" placeholder="Email Address" required>
-        <input type="text" id="name" placeholder="Your Full Name" required>
-        <input type="text" id="whatsapp" placeholder="WhatsApp Number (+880...)" required>
-        <input type="text" id="business" placeholder="Business Type">
-        <textarea id="message" placeholder="Message / Requirement"></textarea>
+      <form
+        action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
+        method="POST">
+
+        <!-- Email (format required) -->
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <!-- Name -->
+        <input type="text" name="name" placeholder="Your Full Name" required>
+
+        <!-- WhatsApp -->
+        <div class="wa-row">
+          <select name="country_code" required>
+            <option value="">Code</option>
+            <option value="+880">🇧🇩 +880</option>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+971">🇦🇪 +971</option>
+          </select>
+
+          <input type="text" name="whatsapp" placeholder="WhatsApp Number" required>
+        </div>
+
+        <!-- Business Type (required select) -->
+        <select name="business" required>
+          <option value="">Select Business Type</option>
+          <option value="Ecommerce">Ecommerce</option>
+          <option value="Service">Service</option>
+          <option value="Agency">Agency</option>
+          <option value="Education">Education</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <!-- Message -->
+        <textarea name="message" placeholder="Message / Requirement"></textarea>
+
         <button class="btn" type="submit">Submit Request</button>
       </form>
+
     </div>
   </div>
 </section>
@@ -131,32 +171,6 @@ section{padding:70px 0}
 </section>
 
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
-
-<script>
-const scriptURL =
-"https://script.google.com/macros/s/AKfycbwhgVJ-i1igHExSMDef5NPDiBfNvi5P79tlj9ArFSEa6aAaZuNlj-7IXTLUWPUfNnVp/exec";
-
-document.getElementById("leadForm").addEventListener("submit", function(e){
-  e.preventDefault();
-
-  fetch(scriptURL,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({
-      email:email.value,
-      name:name.value,
-      whatsapp:whatsapp.value,
-      business:business.value,
-      message:message.value
-    })
-  });
-
-  alert("✅ Submitted! We will contact you shortly.");
-  window.open("https://wa.me/8801742313132","_blank");
-  this.reset();
-});
-</script>
 
 </body>
 </html>
