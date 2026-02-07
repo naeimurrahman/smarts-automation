@@ -83,6 +83,26 @@ button.loading{
   box-shadow:0 0 0 3px rgba(37,211,102,.25);
 }
 
+/* COUNTRY DROPDOWN */
+#countryList{
+  position:absolute;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  margin-top:4px;
+  width:180px;
+  max-height:240px;
+  overflow-y:auto;
+  display:none;
+  z-index:999;
+}
+.country-item{
+  padding:10px;
+  cursor:pointer;
+  font-size:14px;
+}
+.country-item:hover{background:#f1f5f9}
+
 /* MODAL */
 #modal{
   position:fixed;
@@ -136,12 +156,14 @@ button.loading{
       <input type="text" name="name" placeholder="Full Name" required>
 
       <!-- PHONE -->
-      <div class="phone-row">
+      <div class="phone-row" style="position:relative">
         <input id="country_display" value="+880 Bangladesh" readonly>
         <input type="hidden" name="country_code" id="country_code" value="+880">
 
         <div class="otp-wrap" id="otpWrap"></div>
         <input type="hidden" name="whatsapp" id="whatsapp">
+
+        <div id="countryList"></div>
       </div>
 
       <select name="business" required>
@@ -178,17 +200,17 @@ button.loading{
 </div>
 
 <script>
-/* ===== COUNTRY CONFIG (E.164 COMPLIANT) ===== */
-const countryConfig = {
-  "+880": { name:"Bangladesh", digits:10 },
-  "+91":  { name:"India", digits:10 },
-  "+1":   { name:"USA", digits:10 },
-  "+44":  { name:"UK", digits:10 },
-  "+971": { name:"UAE", digits:9 },
-  "+92":  { name:"Pakistan", digits:10 },
-  "+61":  { name:"Australia", digits:9 },
-  "+49":  { name:"Germany", digits:10 },
-  "+33":  { name:"France", digits:9 }
+/* ===== COUNTRY CONFIG (E.164) ===== */
+const countries = {
+  "+880":{name:"Bangladesh",digits:10},
+  "+91":{name:"India",digits:10},
+  "+1":{name:"USA",digits:10},
+  "+44":{name:"UK",digits:10},
+  "+971":{name:"UAE",digits:9},
+  "+92":{name:"Pakistan",digits:10},
+  "+61":{name:"Australia",digits:9},
+  "+49":{name:"Germany",digits:10},
+  "+33":{name:"France",digits:9}
 };
 
 let currentCode = "+880";
@@ -197,16 +219,16 @@ const display = document.getElementById("country_display");
 const hiddenCode = document.getElementById("country_code");
 const otpWrap = document.getElementById("otpWrap");
 const hiddenNumber = document.getElementById("whatsapp");
+const list = document.getElementById("countryList");
 
-/* CREATE OTP BOXES */
-function buildOTP(digits){
+/* BUILD OTP */
+function buildOTP(d){
   otpWrap.innerHTML="";
-  for(let i=0;i<digits;i++){
+  for(let i=0;i<d;i++){
     const input=document.createElement("input");
     input.type="tel";
     input.maxLength=1;
     input.inputMode="numeric";
-
     input.oninput=()=>{
       if(input.value && input.nextSibling) input.nextSibling.focus();
       collect();
@@ -219,16 +241,33 @@ function buildOTP(digits){
     otpWrap.appendChild(input);
   }
 }
-
-/* COLLECT DIGITS */
 function collect(){
-  let val="";
-  otpWrap.querySelectorAll("input").forEach(i=>val+=i.value);
-  hiddenNumber.value = val;
+  let v="";
+  otpWrap.querySelectorAll("input").forEach(i=>v+=i.value);
+  hiddenNumber.value=v;
 }
 
-/* INIT DEFAULT (Bangladesh) */
-buildOTP(countryConfig[currentCode].digits);
+/* INIT */
+buildOTP(countries[currentCode].digits);
+
+/* COUNTRY DROPDOWN */
+display.onclick=()=>{
+  list.innerHTML="";
+  for(const code in countries){
+    const d=document.createElement("div");
+    d.className="country-item";
+    d.textContent=`${code} ${countries[code].name}`;
+    d.onclick=()=>{
+      currentCode=code;
+      display.value=`${code} ${countries[code].name}`;
+      hiddenCode.value=code;
+      buildOTP(countries[code].digits);
+      list.style.display="none";
+    };
+    list.appendChild(d);
+  }
+  list.style.display="block";
+};
 
 /* SUBMIT UX */
 const btn=document.getElementById("btn");
@@ -241,7 +280,6 @@ document.getElementById("leadForm").addEventListener("submit",()=>{
     btn.innerText="Submit Request";
   },1200);
 });
-
 function closeModal(){
   document.getElementById("modal").style.display="none";
 }
