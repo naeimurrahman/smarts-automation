@@ -2,68 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart’s Automation | WhatsApp Automation</title>
+<title>Smart’s Automation – WhatsApp Automation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --primary:#25D366;
+  --green:#25D366;
   --dark:#0f172a;
   --gray:#64748b;
-  --light:#f8fafc;
+  --bg:#f8fafc;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#fff;color:var(--dark);line-height:1.6}
 
 /* layout */
-.container{max-width:1100px;margin:auto;padding:0 16px}
-section{padding:64px 0}
+.container{max-width:1100px;margin:auto;padding:0 20px}
+section{padding:70px 0}
 .btn{
-  background:var(--primary);
+  background:var(--green);
   color:#fff;
   padding:14px 26px;
   border-radius:10px;
   border:none;
   font-weight:600;
   cursor:pointer;
-}
-
-/* SUCCESS BAR */
-#successBar{
-  position:fixed;
-  top:-140px;
-  left:0;
-  width:100%;
-  background:#ecfdf5;
-  border-bottom:2px solid #bbf7d0;
-  z-index:100000;
-  transition:.5s ease;
-}
-#successBar.show{top:0}
-.success-content{
-  max-width:1100px;
-  margin:auto;
-  padding:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.success-content a{
-  background:#25D366;
-  color:#fff;
-  padding:10px 14px;
-  border-radius:8px;
   text-decoration:none;
-}
-.success-content button{
-  background:#e5e7eb;
-  border:none;
-  padding:10px 14px;
-  border-radius:8px;
 }
 
 /* HERO */
@@ -71,15 +34,27 @@ section{padding:64px 0}
   background:linear-gradient(180deg,#ecfdf5,#ffffff);
   text-align:center;
 }
-.hero h1{font-size:38px;margin-bottom:12px}
+.hero h1{font-size:40px;margin-bottom:12px}
 .hero p{color:var(--gray);margin-bottom:24px}
+
+/* FEATURES */
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:25px;
+}
+.feature{
+  background:var(--bg);
+  padding:25px;
+  border-radius:16px;
+}
 
 /* FORM */
 .form-box{
   max-width:520px;
   margin:auto;
   background:#fff;
-  padding:32px;
+  padding:35px;
   border-radius:20px;
   box-shadow:0 25px 60px rgba(0,0,0,.08);
 }
@@ -92,53 +67,86 @@ section{padding:64px 0}
   font-size:15px;
 }
 
-/* PHONE INPUT */
+/* PHONE */
 .phone-row{
   display:flex;
   gap:10px;
   position:relative;
 }
-#countryInput{width:42%}
-#phoneInput{width:58%}
+#country{width:40%;cursor:pointer}
+#number{width:60%}
 
 /* DROPDOWN */
-#countryList{
+#list{
   position:absolute;
   top:58px;
   left:0;
-  width:42%;
+  width:40%;
   max-height:260px;
   overflow-y:auto;
   background:#fff;
   border:1px solid #e5e7eb;
-  border-radius:12px;
+  border-radius:10px;
   display:none;
-  z-index:100000;
-  -webkit-overflow-scrolling:touch;
+  z-index:9999;
 }
-.country-item{
-  padding:10px 12px;
+.item{
+  padding:10px;
   font-size:14px;
   cursor:pointer;
 }
-.country-item:hover{
-  background:#f1f5f9;
+.item:hover{background:#f1f5f9}
+
+/* CTA */
+.cta{
+  background:var(--dark);
+  color:#fff;
+  text-align:center;
 }
+.cta p{color:#cbd5f5;margin:15px 0 30px}
 
 /* FLOATING WA */
 .wa-float{
   position:fixed;
   bottom:20px;
   right:20px;
-  width:58px;
-  height:58px;
-  background:#25D366;
+  width:60px;
+  height:60px;
+  background:var(--green);
   color:#fff;
   border-radius:50%;
   text-align:center;
-  font-size:30px;
-  line-height:58px;
-  z-index:99999;
+  font-size:32px;
+  line-height:60px;
+  text-decoration:none;
+  z-index:9999;
+}
+
+/* SUCCESS BAR */
+#success{
+  position:fixed;
+  top:-120px;
+  left:0;
+  width:100%;
+  background:#ecfdf5;
+  border-bottom:2px solid #bbf7d0;
+  transition:.4s;
+  z-index:10000;
+}
+#success.show{top:0}
+#success div{
+  max-width:1100px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+#success a{
+  background:var(--green);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
   text-decoration:none;
 }
 
@@ -149,14 +157,11 @@ section{padding:64px 0}
 </head>
 <body>
 
-<!-- SUCCESS BAR -->
-<div id="successBar">
-  <div class="success-content">
-    <div>✅ Thanks! We received your request.</div>
-    <div>
-      <a href="https://wa.me/8801742313132" target="_blank">WhatsApp</a>
-      <button onclick="closeSuccess()">Close</button>
-    </div>
+<!-- SUCCESS -->
+<div id="success">
+  <div>
+    <span>✅ Thanks! Your request has been received.</span>
+    <a href="https://wa.me/8801742313132" target="_blank">WhatsApp</a>
   </div>
 </div>
 
@@ -164,29 +169,39 @@ section{padding:64px 0}
 <section class="hero">
   <div class="container">
     <h1>Smart’s Automation</h1>
-    <p>WhatsApp Automation • Lead Capture • Growth</p>
+    <p>WhatsApp Automation • Lead Capture • Business Growth</p>
+    <a href="#form" class="btn">Get Started</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container features">
+    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
+    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
+    <div class="feature"><h3>📈 Growth</h3><p>Increase conversion</p></div>
   </div>
 </section>
 
 <!-- FORM -->
-<section>
+<section id="form">
   <div class="container">
     <div class="form-box">
-      <h3 style="margin-bottom:10px">Get Automation Setup</h3>
+      <h2>Get Automation Setup</h2>
       <p style="color:#64748b;margin-bottom:20px">We will contact you shortly</p>
 
       <form id="leadForm"
         action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
         method="POST"
-        target="hiddenFrame">
+        target="hidden">
 
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="text" name="name" placeholder="Your Full Name" required>
 
         <div class="phone-row">
-          <input type="text" id="countryInput" name="country_code" placeholder="Country / Code" autocomplete="off" required>
-          <input type="text" id="phoneInput" name="whatsapp" placeholder="WhatsApp Number" required>
-          <div id="countryList"></div>
+          <input id="country" name="country_code" placeholder="+880" required>
+          <input id="number" name="whatsapp" placeholder="WhatsApp Number" required>
+          <div id="list"></div>
         </div>
 
         <input type="text" name="business" placeholder="Business Type" required>
@@ -195,80 +210,68 @@ section{padding:64px 0}
         <button class="btn" type="submit">Submit Request</button>
       </form>
 
-      <iframe name="hiddenFrame" style="display:none"></iframe>
+      <iframe name="hidden" style="display:none"></iframe>
     </div>
   </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to Automate?</h2>
+  <p>Smart’s Automation – Simple & Smart</p>
+  <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
 </section>
 
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
 <script>
-/* LOAD WORLD COUNTRIES */
-let countries = [];
+/* COUNTRY LIST (OFFLINE – MOBILE SAFE) */
+const countries=[
+["+880","🇧🇩 Bangladesh"],["+91","🇮🇳 India"],["+1","🇺🇸 USA"],["+44","🇬🇧 UK"],
+["+971","🇦🇪 UAE"],["+92","🇵🇰 Pakistan"],["+61","🇦🇺 Australia"],
+["+49","🇩🇪 Germany"],["+33","🇫🇷 France"],["+39","🇮🇹 Italy"],
+["+81","🇯🇵 Japan"],["+86","🇨🇳 China"],["+55","🇧🇷 Brazil"],
+["+27","🇿🇦 South Africa"],["+966","🇸🇦 Saudi Arabia"],
+["+60","🇲🇾 Malaysia"],["+65","🇸🇬 Singapore"],["+62","🇮🇩 Indonesia"],
+["+90","🇹🇷 Turkey"]
+];
 
-fetch("https://restcountries.com/v3.1/all")
-.then(r=>r.json())
-.then(data=>{
-  countries = data
-    .filter(c=>c.idd && c.idd.root)
-    .map(c=>{
-      const code = c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "");
-      return {
-        name:c.name.common,
-        iso:c.cca2,
-        code:code,
-        flag:c.flag
-      };
-    })
-    .sort((a,b)=>a.name.localeCompare(b.name));
-});
+const country=document.getElementById("country");
+const list=document.getElementById("list");
 
-/* DROPDOWN LOGIC */
-const countryInput=document.getElementById("countryInput");
-const countryList=document.getElementById("countryList");
-
-function showList(q=""){
-  countryList.innerHTML="";
-  const v=q.toLowerCase();
-  countries
-    .filter(c =>
-      c.name.toLowerCase().includes(v) ||
-      c.iso.toLowerCase().includes(v) ||
-      c.code.includes(v)
-    )
-    .forEach(c=>{
-      const d=document.createElement("div");
-      d.className="country-item";
-      d.textContent=`${c.flag} ${c.name} ${c.code}`;
-      d.onclick=()=>{
-        countryInput.value=c.code;
-        countryList.style.display="none";
-      };
-      countryList.appendChild(d);
-    });
-  countryList.style.display="block";
+function show(q=""){
+  list.innerHTML="";
+  countries.filter(c=>
+    c[0].includes(q) || c[1].toLowerCase().includes(q.toLowerCase())
+  ).forEach(c=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.textContent=`${c[1]} ${c[0]}`;
+    d.onclick=()=>{
+      country.value=c[0];
+      list.style.display="none";
+    };
+    list.appendChild(d);
+  });
+  list.style.display="block";
 }
 
-/* MOBILE + DESKTOP EVENTS */
-countryInput.addEventListener("focus",()=>showList());
-countryInput.addEventListener("input",e=>showList(e.target.value));
-countryInput.addEventListener("touchstart",()=>showList());
+country.addEventListener("focus",()=>show());
+country.addEventListener("input",e=>show(e.target.value));
+country.addEventListener("click",()=>show());
 
 document.addEventListener("click",e=>{
-  if(!countryInput.contains(e.target) && !countryList.contains(e.target)){
-    countryList.style.display="none";
-  }
+  if(!country.contains(e.target)) list.style.display="none";
 });
 
 /* SUCCESS BAR */
-const bar=document.getElementById("successBar");
+const bar=document.getElementById("success");
 document.getElementById("leadForm").addEventListener("submit",()=>{
   setTimeout(()=>{
     bar.classList.add("show");
     document.getElementById("leadForm").reset();
-  },600);
+  },500);
 });
-function closeSuccess(){bar.classList.remove("show")}
 </script>
 
 </body>
