@@ -20,157 +20,183 @@
 body{background:#fff;color:var(--dark);line-height:1.6}
 .container{max-width:1100px;margin:auto;padding:0 20px}
 .btn{
-  background:var(--primary);color:#fff;
-  padding:14px 26px;border-radius:10px;
-  border:none;font-weight:600;cursor:pointer
+  background:var(--primary);
+  color:#fff;
+  padding:14px 26px;
+  border-radius:10px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
 }
 section{padding:70px 0}
 
-/* HERO */
-.hero{background:linear-gradient(180deg,#ecfdf5,#ffffff)}
-.hero-box{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:40px;align-items:center
+/* SUCCESS BAR */
+#successBar{
+  position:fixed;
+  top:-120px;
+  left:0;
+  width:100%;
+  background:#ecfdf5;
+  border-bottom:2px solid #bbf7d0;
+  z-index:9999;
+  transition:.6s ease;
 }
-.hero h1{font-size:40px;line-height:1.2}
-.hero p{color:var(--gray);margin:18px 0 28px}
-.hero img{
-  width:100%;border-radius:18px;
-  box-shadow:0 25px 60px rgba(0,0,0,.1)
+#successBar.show{top:0}
+.success-content{
+  max-width:1100px;
+  margin:auto;
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
-
-/* FEATURES */
-.features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:25px
+.success-content a{
+  background:#25D366;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  text-decoration:none;
 }
-.feature{background:var(--light);padding:25px;border-radius:16px}
+.success-content button{
+  background:#e5e7eb;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+}
 
 /* FORM */
 .form-box{
-  max-width:520px;margin:auto;background:#fff;
-  padding:35px;border-radius:20px;
-  box-shadow:0 25px 60px rgba(0,0,0,.08)
+  max-width:520px;
+  margin:auto;
+  background:#fff;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
 }
 .form-box input,.form-box textarea,.form-box select{
-  width:100%;padding:14px;margin-bottom:15px;
-  border-radius:10px;border:1px solid #e5e7eb
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
 }
 
-/* WhatsApp row */
 .wa-row{
   display:flex;
   gap:10px;
 }
-.wa-row select{
-  width:40%;
-}
-.wa-row input{
-  width:60%;
-}
-
-/* CTA */
-.cta{background:var(--dark);color:#fff;text-align:center}
-.cta p{color:#cbd5f5;margin:15px 0 30px}
+.wa-row input{width:60%}
+.wa-row input[list]{width:40%}
 
 /* FLOATING WA */
 .wa-float{
-  position:fixed;bottom:20px;right:20px;
-  width:60px;height:60px;background:#25D366;
-  color:#fff;border-radius:50%;
-  text-align:center;font-size:32px;line-height:60px;
-  box-shadow:0 10px 25px rgba(37,211,102,.4);
-  z-index:999;text-decoration:none
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:60px;
+  height:60px;
+  background:#25D366;
+  color:#fff;
+  border-radius:50%;
+  text-align:center;
+  font-size:32px;
+  line-height:60px;
+  text-decoration:none;
 }
 
-@media(max-width:768px){
-  .hero-box{grid-template-columns:1fr;text-align:center}
-}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container hero-box">
+<!-- SUCCESS BAR -->
+<div id="successBar">
+  <div class="success-content">
+    <div>✅ Thanks! Your request has been received.</div>
     <div>
-      <h1>Smart’s Automation<br>WhatsApp Automation Dashboard</h1>
-      <p>Auto Reply, Lead Capture এবং Business Growth একসাথে।</p>
-      <a href="https://wa.me/8801742313132" class="btn">Chat on WhatsApp 🚀</a>
+      <a href="https://wa.me/8801742313132" target="_blank">Contact WhatsApp</a>
+      <button onclick="closeSuccess()">Close</button>
     </div>
-    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900">
   </div>
-</section>
-
-<!-- FEATURES -->
-<section>
-  <div class="container features">
-    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
-    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
-    <div class="feature"><h3>📈 Growth</h3><p>More conversion</p></div>
-  </div>
-</section>
+</div>
 
 <!-- FORM -->
 <section>
   <div class="container">
     <div class="form-box">
-      <h2>Get Automation Setup</h2>
-      <p style="color:#64748b;margin-bottom:20px">We will contact you shortly</p>
 
-      <form
+      <form id="leadForm"
         action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
-        method="POST">
+        method="POST"
+        target="hiddenFrame">
 
-        <!-- Email (format required) -->
         <input type="email" name="email" placeholder="Email Address" required>
 
-        <!-- Name -->
         <input type="text" name="name" placeholder="Your Full Name" required>
 
-        <!-- WhatsApp -->
+        <!-- WORLD COUNTRY CODE SEARCH -->
         <div class="wa-row">
-          <select name="country_code" required>
-            <option value="">Code</option>
-            <option value="+880">🇧🇩 +880</option>
-            <option value="+91">🇮🇳 +91</option>
-            <option value="+1">🇺🇸 +1</option>
-            <option value="+44">🇬🇧 +44</option>
-            <option value="+971">🇦🇪 +971</option>
-          </select>
-
+          <input list="codes" name="country_code" placeholder="Country Code" required>
           <input type="text" name="whatsapp" placeholder="WhatsApp Number" required>
         </div>
 
-        <!-- Business Type (required select) -->
+        <datalist id="codes">
+          <option value="+1 USA">
+          <option value="+44 UK">
+          <option value="+880 Bangladesh">
+          <option value="+91 India">
+          <option value="+971 UAE">
+          <option value="+92 Pakistan">
+          <option value="+61 Australia">
+          <option value="+81 Japan">
+          <option value="+49 Germany">
+          <option value="+33 France">
+          <option value="+39 Italy">
+          <option value="+7 Russia">
+          <option value="+86 China">
+          <option value="+82 South Korea">
+          <option value="+90 Turkey">
+          <option value="+55 Brazil">
+          <option value="+234 Nigeria">
+          <option value="+27 South Africa">
+          <option value="+34 Spain">
+          <option value="+62 Indonesia">
+          <!-- (Top world codes – practical & safe) -->
+        </datalist>
+
         <select name="business" required>
           <option value="">Select Business Type</option>
-          <option value="Ecommerce">Ecommerce</option>
-          <option value="Service">Service</option>
-          <option value="Agency">Agency</option>
-          <option value="Education">Education</option>
-          <option value="Other">Other</option>
+          <option>Ecommerce</option>
+          <option>Service</option>
+          <option>Agency</option>
+          <option>Education</option>
+          <option>Other</option>
         </select>
 
-        <!-- Message -->
         <textarea name="message" placeholder="Message / Requirement"></textarea>
 
         <button class="btn" type="submit">Submit Request</button>
       </form>
 
+      <iframe name="hiddenFrame" style="display:none"></iframe>
+
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <h2>Ready to Automate?</h2>
-  <p>Smart’s Automation – Simple & Smart</p>
-  <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
-</section>
-
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
+
+<script>
+const bar=document.getElementById("successBar");
+document.getElementById("leadForm").addEventListener("submit",()=>{
+  setTimeout(()=>{
+    bar.classList.add("show");
+    document.getElementById("leadForm").reset();
+  },600);
+});
+function closeSuccess(){bar.classList.remove("show")}
+</script>
 
 </body>
 </html>
