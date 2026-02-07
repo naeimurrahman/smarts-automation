@@ -10,9 +10,10 @@
   --green:#25D366;
   --dark:#0f172a;
   --gray:#64748b;
+  --bg:#f8fafc;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#f8fafc;color:var(--dark)}
+body{background:var(--bg);color:var(--dark)}
 
 .container{max-width:420px;margin:40px auto;padding:20px}
 
@@ -20,8 +21,8 @@ body{background:#f8fafc;color:var(--dark)}
 .card{
   background:#fff;
   padding:26px;
-  border-radius:20px;
-  box-shadow:0 25px 60px rgba(0,0,0,.12);
+  border-radius:22px;
+  box-shadow:0 30px 70px rgba(0,0,0,.15);
   animation:enter .6s ease;
 }
 @keyframes enter{
@@ -46,35 +47,41 @@ button{
   color:#fff;
   border:none;
   font-weight:600;
-  position:relative;
-  overflow:hidden;
 }
 button.loading{
+  opacity:.75;
   pointer-events:none;
-  opacity:.8;
 }
 
 /* PHONE */
-.phone-row{display:flex;gap:8px;position:relative}
-#country_display{width:45%;cursor:pointer;background:#f8fafc}
-#number{width:55%}
-
-/* DROPDOWN */
-#list{
-  position:absolute;
-  top:54px;
-  left:0;
+.phone-row{display:flex;gap:8px;align-items:center}
+#country_display{
   width:45%;
-  max-height:220px;
-  overflow-y:auto;
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  display:none;
-  z-index:999;
+  background:#f1f5f9;
+  cursor:pointer;
 }
-.item{padding:10px;font-size:14px;cursor:pointer}
-.item:hover{background:#f1f5f9}
+
+/* OTP */
+.otp-wrap{
+  display:flex;
+  gap:6px;
+  width:55%;
+}
+.otp-wrap input{
+  width:100%;
+  max-width:36px;
+  height:48px;
+  text-align:center;
+  font-size:18px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  outline:none;
+  transition:.2s;
+}
+.otp-wrap input:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(37,211,102,.25);
+}
 
 /* MODAL */
 #modal{
@@ -108,8 +115,8 @@ button.loading{
   text-decoration:none;
 }
 .modal-box button{
-  margin-top:10px;
   background:#e5e7eb;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -128,11 +135,13 @@ button.loading{
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="name" placeholder="Full Name" required>
 
+      <!-- PHONE -->
       <div class="phone-row">
-        <input id="country_display" placeholder="+880 Bangladesh" readonly>
-        <input type="hidden" name="country_code" id="country_code">
-        <input id="number" name="whatsapp" placeholder="WhatsApp Number" required>
-        <div id="list"></div>
+        <input id="country_display" value="+880 Bangladesh" readonly>
+        <input type="hidden" name="country_code" id="country_code" value="+880">
+
+        <div class="otp-wrap" id="otpWrap"></div>
+        <input type="hidden" name="whatsapp" id="whatsapp">
       </div>
 
       <select name="business" required>
@@ -148,56 +157,80 @@ button.loading{
 
       <button id="btn" type="submit">Submit Request</button>
     </form>
+
     <iframe name="hiddenFrame" style="display:none"></iframe>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- THANK YOU MODAL -->
 <div id="modal">
   <div class="modal-box">
     <h3>🎉 Thank You!</h3>
     <p>Your request has been received.</p>
-    <p style="font-size:14px;color:#64748b">If you want, type or grab it 👇</p>
-    <a href="https://wa.me/8801742313132" target="_blank">💬 Contact on WhatsApp</a>
+    <p style="font-size:14px;color:#64748b">
+      If you want, type or grab it 👇
+    </p>
+    <a href="https://wa.me/8801742313132" target="_blank">
+      💬 Contact on WhatsApp
+    </a>
     <button onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-/* COUNTRY DATA */
-const countries=[
- {code:"+880",label:"Bangladesh"},
- {code:"+91",label:"India"},
- {code:"+1",label:"USA"},
- {code:"+44",label:"UK"}
-];
-
-const display=document.getElementById("country_display");
-const hidden=document.getElementById("country_code");
-const list=document.getElementById("list");
-
-/* DROPDOWN */
-display.onclick=()=>{
-  list.innerHTML="";
-  countries.forEach(c=>{
-    const d=document.createElement("div");
-    d.className="item";
-    d.textContent=`${c.code} ${c.label}`;
-    d.onclick=()=>{
-      display.value=`${c.code} ${c.label}`;
-      hidden.value=c.code;
-      list.style.display="none";
-    };
-    list.appendChild(d);
-  });
-  list.style.display="block";
+/* ===== COUNTRY CONFIG (E.164 COMPLIANT) ===== */
+const countryConfig = {
+  "+880": { name:"Bangladesh", digits:10 },
+  "+91":  { name:"India", digits:10 },
+  "+1":   { name:"USA", digits:10 },
+  "+44":  { name:"UK", digits:10 },
+  "+971": { name:"UAE", digits:9 },
+  "+92":  { name:"Pakistan", digits:10 },
+  "+61":  { name:"Australia", digits:9 },
+  "+49":  { name:"Germany", digits:10 },
+  "+33":  { name:"France", digits:9 }
 };
 
-/* DEFAULT */
-display.value="+880 Bangladesh";
-hidden.value="+880";
+let currentCode = "+880";
 
-/* SUBMIT UX (NO RESET BEFORE POST) */
+const display = document.getElementById("country_display");
+const hiddenCode = document.getElementById("country_code");
+const otpWrap = document.getElementById("otpWrap");
+const hiddenNumber = document.getElementById("whatsapp");
+
+/* CREATE OTP BOXES */
+function buildOTP(digits){
+  otpWrap.innerHTML="";
+  for(let i=0;i<digits;i++){
+    const input=document.createElement("input");
+    input.type="tel";
+    input.maxLength=1;
+    input.inputMode="numeric";
+
+    input.oninput=()=>{
+      if(input.value && input.nextSibling) input.nextSibling.focus();
+      collect();
+    };
+    input.onkeydown=e=>{
+      if(e.key==="Backspace" && !input.value && input.previousSibling){
+        input.previousSibling.focus();
+      }
+    };
+    otpWrap.appendChild(input);
+  }
+}
+
+/* COLLECT DIGITS */
+function collect(){
+  let val="";
+  otpWrap.querySelectorAll("input").forEach(i=>val+=i.value);
+  hiddenNumber.value = val;
+}
+
+/* INIT DEFAULT (Bangladesh) */
+buildOTP(countryConfig[currentCode].digits);
+
+/* SUBMIT UX */
 const btn=document.getElementById("btn");
 document.getElementById("leadForm").addEventListener("submit",()=>{
   btn.classList.add("loading");
