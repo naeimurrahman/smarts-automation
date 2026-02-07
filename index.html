@@ -15,7 +15,6 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#fff;color:var(--dark);line-height:1.6}
 
-/* layout */
 .container{max-width:1100px;margin:auto;padding:0 20px}
 section{padding:70px 0}
 .btn{
@@ -57,14 +56,10 @@ section{padding:70px 0}
   padding:34px;
   border-radius:20px;
   box-shadow:0 25px 60px rgba(0,0,0,.08);
-  animation:fade3d .6s ease;
-}
-@keyframes fade3d{
-  from{opacity:0;transform:translateY(30px) scale(.96)}
-  to{opacity:1;transform:none}
 }
 .form-wrap input,
 .form-wrap textarea,
+.form-wrap select,
 .form-wrap button{
   width:100%;
   padding:14px;
@@ -86,7 +81,7 @@ section{padding:70px 0}
 
 /* PHONE */
 .phone-row{display:flex;gap:10px;position:relative}
-#country{width:45%}
+#country_display{width:45%}
 #number{width:55%}
 
 /* DROPDOWN */
@@ -103,11 +98,7 @@ section{padding:70px 0}
   display:none;
   z-index:9999;
 }
-.item{
-  padding:10px;
-  font-size:14px;
-  cursor:pointer;
-}
+.item{padding:10px;font-size:14px;cursor:pointer}
 .item:hover{background:#f1f5f9}
 
 /* CTA */
@@ -135,7 +126,7 @@ section{padding:70px 0}
   z-index:9999;
 }
 
-/* THANK YOU MODAL */
+/* MODAL */
 #modal{
   position:fixed;
   inset:0;
@@ -143,7 +134,6 @@ section{padding:70px 0}
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:10000;
 }
 .modal-box{
   background:#fff;
@@ -152,9 +142,7 @@ section{padding:70px 0}
   width:90%;
   max-width:360px;
   text-align:center;
-  animation:fade3d .5s ease;
 }
-.modal-box p{margin:10px 0}
 .modal-box a{
   display:block;
   background:var(--green);
@@ -166,7 +154,6 @@ section{padding:70px 0}
 }
 .modal-box button{
   background:#e5e7eb;
-  color:#111;
   margin-top:10px;
 }
 
@@ -200,9 +187,6 @@ section{padding:70px 0}
   <div class="container">
     <div class="form-wrap">
       <h2 style="text-align:center;margin-bottom:6px">Get Automation Setup</h2>
-      <p style="text-align:center;color:#64748b;margin-bottom:18px">
-        We will contact you shortly
-      </p>
 
       <form id="leadForm"
         action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
@@ -212,17 +196,30 @@ section{padding:70px 0}
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="text" name="name" placeholder="Full Name" required>
 
+        <!-- COUNTRY -->
         <div class="phone-row">
-          <input id="country" name="country_code" placeholder="+880 Bangladesh">
+          <input id="country_display" placeholder="+880 Bangladesh" readonly>
+          <input type="hidden" name="country_code" id="country_code">
           <input id="number" name="whatsapp" placeholder="WhatsApp Number" required>
           <div id="list"></div>
         </div>
 
-        <input type="text" name="business" placeholder="Business Type" required>
+        <!-- BUSINESS TYPE DROPDOWN -->
+        <select name="business" required>
+          <option value="">Select Business Type</option>
+          <option>Agency</option>
+          <option>E-commerce</option>
+          <option>Service Provider</option>
+          <option>Local Business</option>
+          <option>Personal Brand</option>
+          <option>Other</option>
+        </select>
+
         <textarea name="message" placeholder="Message / Requirement"></textarea>
 
         <button id="btn" type="submit">Submit Request</button>
       </form>
+
       <iframe name="hiddenFrame" style="display:none"></iframe>
     </div>
   </div>
@@ -237,87 +234,62 @@ section{padding:70px 0}
 
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
-<!-- THANK YOU MODAL -->
+<!-- MODAL -->
 <div id="modal">
   <div class="modal-box">
     <h3>🎉 Thank You!</h3>
     <p>Your request has been received.</p>
-    <p style="font-size:14px;color:#64748b">
-      If you want, type or grab it 👇
-    </p>
-    <a href="https://wa.me/8801742313132" target="_blank">
-      💬 Contact on WhatsApp
-    </a>
+    <p style="font-size:14px;color:#64748b">If you want, type or grab it 👇</p>
+    <a href="https://wa.me/8801742313132" target="_blank">💬 Contact on WhatsApp</a>
     <button onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-/* ===== COUNTRY LIST (OFFLINE, STABLE) ===== */
+/* COUNTRY DATA */
 const countries=[
-["+880","Bangladesh"],["+91","India"],["+1","USA"],["+44","UK"],
-["+971","UAE"],["+92","Pakistan"],["+61","Australia"],
-["+49","Germany"],["+33","France"],["+39","Italy"]
+  {code:"+880",label:"Bangladesh"},
+  {code:"+91",label:"India"},
+  {code:"+1",label:"USA"},
+  {code:"+44",label:"UK"},
+  {code:"+971",label:"UAE"},
+  {code:"+92",label:"Pakistan"},
+  {code:"+61",label:"Australia"}
 ];
 
-const country=document.getElementById("country");
+const display=document.getElementById("country_display");
+const hidden=document.getElementById("country_code");
 const list=document.getElementById("list");
 
-/* DROPDOWN */
-function show(q=""){
+/* dropdown */
+function showList(){
   list.innerHTML="";
-  countries.filter(c =>
-    c[0].includes(q) || c[1].toLowerCase().includes(q.toLowerCase())
-  ).forEach(c=>{
+  countries.forEach(c=>{
     const d=document.createElement("div");
     d.className="item";
-    d.textContent=`${c[0]} ${c[1]}`;
+    d.textContent=`${c.code} ${c.label}`;
     d.onclick=()=>{
-      country.value=`${c[0]} ${c[1]}`;
+      display.value=`${c.code} ${c.label}`;
+      hidden.value=c.code;
       list.style.display="none";
     };
     list.appendChild(d);
   });
   list.style.display="block";
 }
-country.addEventListener("focus",()=>show());
-country.addEventListener("input",e=>show(e.target.value));
-country.addEventListener("click",()=>show());
+display.addEventListener("click",showList);
 
-/* AUTO COUNTRY BY VISITOR (fallback +880) */
-fetch("https://ipapi.co/json/")
-.then(r=>r.json())
-.then(d=>{
-  const map={
-    BD:"+880 Bangladesh",
-    IN:"+91 India",
-    US:"+1 USA",
-    GB:"+44 UK",
-    AE:"+971 UAE",
-    PK:"+92 Pakistan",
-    AU:"+61 Australia",
-    DE:"+49 Germany",
-    FR:"+33 France",
-    IT:"+39 Italy"
-  };
-  country.value = map[d.country_code] || "+880 Bangladesh";
-})
-.catch(()=>{
-  country.value="+880 Bangladesh";
-});
+/* default */
+display.value="+880 Bangladesh";
+hidden.value="+880";
 
-/* SUBMIT UX */
-const form=document.getElementById("leadForm");
-const btn=document.getElementById("btn");
-form.addEventListener("submit",()=>{
-  btn.classList.add("loading");
-  btn.innerText="Submitting...";
+/* submit ux */
+document.getElementById("leadForm").addEventListener("submit",()=>{
+  document.getElementById("btn").classList.add("loading");
   setTimeout(()=>{
     document.getElementById("modal").style.display="flex";
-    form.reset();
-    btn.classList.remove("loading");
-    btn.innerText="Submit Request";
-  },900);
+    document.getElementById("leadForm").reset();
+  },800);
 });
 function closeModal(){
   document.getElementById("modal").style.display="none";
