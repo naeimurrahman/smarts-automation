@@ -112,66 +112,85 @@ section{padding:70px 0}
 <!-- =================================================
      SECTION 3 : LEAD FORM
 ================================================= -->
-<!-- =================================================
-     SECTION : LEAD FORM (PRODUCTION READY)
-================================================= -->
 <section id="lead">
   <div class="container">
 
     <div class="form-wrap">
 
-      <!-- Header -->
       <h2 class="form-title">Get Automation Setup</h2>
       <p class="form-sub">We will contact you shortly</p>
 
-      <!-- ================= FORM ================= -->
       <form id="leadForm">
 
-        <!-- ===== STEP 1 ===== -->
-        <div class="step active">
-          <input type="text" id="name" placeholder="Full Name" required>
-          <input type="email" id="email" placeholder="Email Address" required>
-          <button type="button" class="btn" onclick="nextStep()">Continue</button>
+        <!-- ================= STEP 1 : NAME + EMAIL ================= -->
+        <div class="step active" id="stepBasic">
+
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Full Name"
+            autocomplete="name"
+            required
+          >
+          <div class="field-error" id="nameError"></div>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            autocomplete="email"
+            required
+          >
+          <div class="field-error" id="emailError"></div>
+
+          <button
+            type="button"
+            class="btn glow-btn"
+            onclick="nextStepBasic()"
+          >
+            Continue
+          </button>
+
         </div>
 
-        <!-- ===== STEP 2 ===== -->
+        <!-- ================= STEP 2 : WHATSAPP ================= -->
         <div class="step">
 
-          <!-- WhatsApp Field -->
+          <label class="wa-label">WhatsApp Number</label>
+
           <div class="wa-section">
+            <div class="wa-country" id="waCountryBtn">🇧🇩 +880</div>
 
-            <label class="wa-label">WhatsApp Number</label>
+            <input
+              id="waNumber"
+              type="tel"
+              inputmode="numeric"
+              placeholder="WhatsApp Number"
+              required
+            >
+          </div>
 
-            <div class="wa-field">
-              <div class="wa-country" id="waCountryBtn">🇧🇩 +880</div>
-              <input
-                id="waNumber"
-                type="tel"
-                inputmode="numeric"
-                placeholder="Enter WhatsApp number"
-                required
-              >
-            </div>
+          <div class="wa-error" id="waError"></div>
+          <input type="hidden" name="whatsapp" id="waFinal">
 
-            <div class="wa-error" id="waError"></div>
-            <input type="hidden" name="whatsapp" id="waFinal">
-
-            <!-- Country Dropdown -->
-            <div class="wa-dropdown" id="waDropdown">
-              <input type="text" id="waSearch" placeholder="Search country">
-              <div class="wa-list" id="waList"></div>
-            </div>
-
+          <!-- country dropdown -->
+          <div class="wa-dropdown" id="waDropdown">
+            <input type="text" id="waSearch" placeholder="Search country">
+            <div class="wa-list" id="waList"></div>
           </div>
 
           <div class="nav">
             <button type="button" class="ghost" onclick="prevStep()">Go back</button>
-            <button type="button" class="btn" onclick="nextStep(true)">Continue</button>
+            <button type="button" class="btn glow-btn" onclick="nextStepWA()">
+              Continue
+            </button>
           </div>
+
         </div>
 
-        <!-- ===== STEP 3 ===== -->
+        <!-- ================= STEP 3 : BUSINESS ================= -->
         <div class="step">
+
           <select id="business" required>
             <option value="">Select Business Type</option>
             <option>Agency</option>
@@ -187,10 +206,10 @@ section{padding:70px 0}
             <button type="button" class="ghost" onclick="prevStep()">Go back</button>
             <button type="submit" class="btn">Submit Request</button>
           </div>
+
         </div>
 
       </form>
-
     </div>
   </div>
 
@@ -204,15 +223,9 @@ section{padding:70px 0}
     border-radius:22px;
     box-shadow:0 25px 60px rgba(0,0,0,.08);
   }
-  .form-title{
-    text-align:center;
-    margin-bottom:6px;
-  }
-  .form-sub{
-    text-align:center;
-    color:#64748b;
-    margin-bottom:20px;
-  }
+  .form-title{text-align:center;margin-bottom:6px}
+  .form-sub{text-align:center;color:#64748b;margin-bottom:20px}
+
   .form-wrap input,
   .form-wrap select,
   .form-wrap textarea{
@@ -223,12 +236,11 @@ section{padding:70px 0}
     border:1px solid #e5e7eb;
     font-size:15px;
   }
+
   .step{display:none}
   .step.active{display:block}
-  .nav{
-    display:flex;
-    gap:10px;
-  }
+
+  .nav{display:flex;gap:10px}
   .ghost{
     flex:1;
     background:#e5e7eb;
@@ -238,13 +250,32 @@ section{padding:70px 0}
     cursor:pointer;
   }
 
-  /* WhatsApp */
-  .wa-section{position:relative;margin-bottom:10px}
-  .wa-label{font-size:14px;margin-bottom:6px;display:block}
-  .wa-field{
-    display:flex;
-    gap:10px;
+  /* errors */
+  .field-error,
+  .wa-error{
+    font-size:13px;
+    color:#dc2626;
+    margin:-8px 0 10px;
   }
+  .input-error{
+    border-color:#dc2626 !important;
+  }
+
+  /* glow */
+  .glow-btn{position:relative;overflow:hidden}
+  .glow-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,.25);
+    opacity:0;
+    transition:.25s;
+  }
+  .glow-btn.glow::after{opacity:1}
+
+  /* WhatsApp */
+  .wa-section{display:flex;gap:10px;align-items:center}
+  .wa-label{font-size:14px;margin-bottom:6px;display:block}
   .wa-country{
     background:#f1f5f9;
     padding:14px;
@@ -252,20 +283,14 @@ section{padding:70px 0}
     cursor:pointer;
     white-space:nowrap;
   }
-  .wa-field input{flex:1}
-  .wa-error{
-    font-size:13px;
-    color:#dc2626;
-    margin-top:6px;
-  }
+
   .wa-dropdown{
     position:absolute;
-    top:100%;
-    left:0;
-    width:100%;
     background:#fff;
     border:1px solid #e5e7eb;
     border-radius:12px;
+    width:100%;
+    max-width:420px;
     margin-top:6px;
     display:none;
     z-index:9999;
@@ -276,102 +301,128 @@ section{padding:70px 0}
     border:none;
     border-bottom:1px solid #e5e7eb;
   }
-  .wa-list{
-    max-height:260px;
-    overflow-y:auto;
-  }
-  .wa-item{
-    padding:10px;
-    cursor:pointer;
-    font-size:14px;
-  }
+  .wa-list{max-height:260px;overflow-y:auto}
+  .wa-item{padding:10px;cursor:pointer;font-size:14px}
   .wa-item:hover{background:#f1f5f9}
   </style>
 
   <!-- ================= JS ================= -->
   <script>
-  /* Wizard */
+  /* ---------- Wizard ---------- */
   let step = 0;
   const steps = document.querySelectorAll("#lead .step");
   function updateSteps(){
     steps.forEach((s,i)=>s.classList.toggle("active",i===step));
   }
-  function nextStep(checkWA=false){
-    if(checkWA && !validateWhatsApp()) return;
-    if(step < steps.length-1){ step++; updateSteps(); }
-  }
   function prevStep(){
-    if(step > 0){ step--; updateSteps(); }
+    if(step>0){step--;updateSteps();}
   }
   updateSteps();
 
-  /* WhatsApp Logic */
-  const waCountries = [
-    {n:"Bangladesh", c:"+880", l:10, f:"🇧🇩"},
-    {n:"India", c:"+91", l:10, f:"🇮🇳"},
-    {n:"United States", c:"+1", l:10, f:"🇺🇸"},
-    {n:"United Kingdom", c:"+44", l:10, f:"🇬🇧"},
-    {n:"United Arab Emirates", c:"+971", l:9, f:"🇦🇪"},
-    {n:"Pakistan", c:"+92", l:10, f:"🇵🇰"}
+  /* ---------- NAME + EMAIL ---------- */
+  const nameInput  = document.getElementById("fullName");
+  const emailInput = document.getElementById("email");
+  const nameError  = document.getElementById("nameError");
+  const emailError = document.getElementById("emailError");
+
+  const nameRegex  = /^[A-Za-z ]{2,40}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const blockedDomains=["tempmail","mailinator","10minutemail","guerrillamail"];
+
+  function nextStepBasic(){
+    nameError.textContent="";
+    emailError.textContent="";
+    nameInput.classList.remove("input-error");
+    emailInput.classList.remove("input-error");
+
+    let ok=true;
+
+    const name=nameInput.value.trim();
+    const email=emailInput.value.trim().toLowerCase();
+
+    nameInput.value=name;
+    emailInput.value=email;
+
+    if(!nameRegex.test(name)){
+      nameError.textContent="Enter a valid full name";
+      nameInput.classList.add("input-error");
+      ok=false;
+    }
+
+    if(!emailRegex.test(email)){
+      emailError.textContent="Enter a valid email address";
+      emailInput.classList.add("input-error");
+      ok=false;
+    }else{
+      const domain=email.split("@")[1];
+      if(blockedDomains.some(d=>domain.includes(d))){
+        emailError.textContent="Temporary emails are not allowed";
+        emailInput.classList.add("input-error");
+        ok=false;
+      }
+    }
+
+    if(ok){
+      const btn=document.querySelector("#stepBasic .glow-btn");
+      btn.classList.add("glow");
+      setTimeout(()=>btn.classList.remove("glow"),250);
+      step++;updateSteps();
+    }
+  }
+
+  /* ---------- WHATSAPP ---------- */
+  const waCountries=[
+    {n:"Bangladesh",c:"+880",l:10,f:"🇧🇩"},
+    {n:"India",c:"+91",l:10,f:"🇮🇳"},
+    {n:"United States",c:"+1",l:10,f:"🇺🇸"},
+    {n:"United Kingdom",c:"+44",l:10,f:"🇬🇧"},
+    {n:"United Arab Emirates",c:"+971",l:9,f:"🇦🇪"}
   ];
+  let waSelected=waCountries[0];
 
-  let waSelected = waCountries[0];
-
-  const waBtn = document.getElementById("waCountryBtn");
-  const waNum = document.getElementById("waNumber");
-  const waFinal = document.getElementById("waFinal");
-  const waError = document.getElementById("waError");
-  const waDrop = document.getElementById("waDropdown");
-  const waList = document.getElementById("waList");
-  const waSearch = document.getElementById("waSearch");
+  const waBtn=document.getElementById("waCountryBtn");
+  const waNum=document.getElementById("waNumber");
+  const waFinal=document.getElementById("waFinal");
+  const waError=document.getElementById("waError");
+  const waDrop=document.getElementById("waDropdown");
+  const waList=document.getElementById("waList");
+  const waSearch=document.getElementById("waSearch");
 
   function renderList(q=""){
     waList.innerHTML="";
-    waCountries
-      .filter(x => (x.n+x.c).toLowerCase().includes(q.toLowerCase()))
-      .forEach(x=>{
-        const d=document.createElement("div");
-        d.className="wa-item";
-        d.textContent=`${x.f} ${x.n} (${x.c})`;
-        d.onclick=()=>{
-          waSelected=x;
-          waBtn.textContent=`${x.f} ${x.c}`;
-          waDrop.style.display="none";
-          validateWhatsApp();
-        };
-        waList.appendChild(d);
-      });
+    waCountries.filter(x=>(x.n+x.c).toLowerCase().includes(q.toLowerCase()))
+    .forEach(x=>{
+      const d=document.createElement("div");
+      d.className="wa-item";
+      d.textContent=`${x.f} ${x.n} (${x.c})`;
+      d.onclick=()=>{
+        waSelected=x;
+        waBtn.textContent=`${x.f} ${x.c}`;
+        waDrop.style.display="none";
+      };
+      waList.appendChild(d);
+    });
   }
   renderList();
 
-  waBtn.onclick=()=>{ waDrop.style.display="block"; waSearch.focus(); }
+  waBtn.onclick=()=>{waDrop.style.display="block";waSearch.focus();}
   waSearch.oninput=e=>renderList(e.target.value);
 
-  fetch("https://ipapi.co/json/")
-    .then(r=>r.json())
-    .then(d=>{
-      const found = waCountries.find(x=>x.c === "+"+d.country_calling_code);
-      if(found){
-        waSelected = found;
-        waBtn.textContent = `${found.f} ${found.c}`;
-      }
-    });
-
-  function validateWhatsApp(){
+  function nextStepWA(){
     waError.textContent="";
-    let v = waNum.value.replace(/\D/g,"");
-    if(v.startsWith("0")) v = v.slice(1);
-    if(v.length !== waSelected.l){
-      waError.textContent = "Enter a valid WhatsApp number";
-      return false;
+    let v=waNum.value.replace(/\D/g,"");
+    if(v.startsWith("0"))v=v.slice(1);
+    if(v.length!==waSelected.l){
+      waError.textContent="Enter a valid WhatsApp number";
+      return;
     }
-    waFinal.value = waSelected.c + v;
-    return true;
+    waFinal.value=waSelected.c+v;
+    step++;updateSteps();
   }
-  waNum.addEventListener("input", validateWhatsApp);
   </script>
 
 </section>
+
 
 
 <!-- =================================================
