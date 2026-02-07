@@ -2,87 +2,61 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Smart’s Automation – WhatsApp Automation</title>
+<title>Smart’s Automation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
-  --green:#25D366;
-  --dark:#0f172a;
-  --gray:#64748b;
-  --bg:#f8fafc;
-}
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#fff;color:var(--dark);line-height:1.6}
+body{background:#f8fafc;color:#0f172a}
 
-/* layout */
-.container{max-width:1100px;margin:auto;padding:0 20px}
-section{padding:70px 0}
-.btn{
-  background:var(--green);
-  color:#fff;
-  padding:14px 26px;
-  border-radius:10px;
-  border:none;
-  font-weight:600;
-  cursor:pointer;
-  text-decoration:none;
-}
+.container{max-width:420px;margin:40px auto;padding:20px}
+h1{text-align:center;margin-bottom:6px}
+p{text-align:center;color:#64748b;margin-bottom:18px}
 
-/* HERO */
-.hero{
-  background:linear-gradient(180deg,#ecfdf5,#ffffff);
-  text-align:center;
-}
-.hero h1{font-size:40px;margin-bottom:12px}
-.hero p{color:var(--gray);margin-bottom:24px}
-
-/* FEATURES */
-.features{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:25px;
-}
-.feature{
-  background:var(--bg);
-  padding:25px;
-  border-radius:16px;
-}
-
-/* FORM */
-.form-box{
-  max-width:520px;
-  margin:auto;
+.card{
   background:#fff;
-  padding:35px;
-  border-radius:20px;
-  box-shadow:0 25px 60px rgba(0,0,0,.08);
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
+  animation:pop .5s ease;
 }
-.form-box input,.form-box textarea{
+@keyframes pop{
+  from{opacity:0;transform:scale(.96) translateY(20px)}
+  to{opacity:1;transform:none}
+}
+
+input,textarea,button{
   width:100%;
   padding:14px;
-  margin-bottom:14px;
+  margin-bottom:12px;
   border-radius:10px;
   border:1px solid #e5e7eb;
   font-size:15px;
 }
 
-/* PHONE */
-.phone-row{
-  display:flex;
-  gap:10px;
-  position:relative;
+button{
+  background:#25D366;
+  color:#fff;
+  font-weight:600;
+  border:none;
 }
-#country{width:40%;cursor:pointer}
-#number{width:60%}
+button.loading{
+  opacity:.7;
+  pointer-events:none;
+}
 
-/* DROPDOWN */
+/* phone */
+.phone-row{display:flex;gap:8px;position:relative}
+#country{width:45%}
+#number{width:55%}
+
+/* dropdown */
 #list{
   position:absolute;
-  top:58px;
+  top:54px;
   left:0;
-  width:40%;
-  max-height:260px;
+  width:45%;
+  max-height:220px;
   overflow-y:auto;
   background:#fff;
   border:1px solid #e5e7eb;
@@ -90,150 +64,97 @@ section{padding:70px 0}
   display:none;
   z-index:9999;
 }
-.item{
-  padding:10px;
-  font-size:14px;
-  cursor:pointer;
-}
+.item{padding:10px;font-size:14px;cursor:pointer}
 .item:hover{background:#f1f5f9}
 
-/* CTA */
-.cta{
-  background:var(--dark);
-  color:#fff;
-  text-align:center;
-}
-.cta p{color:#cbd5f5;margin:15px 0 30px}
-
-/* FLOATING WA */
-.wa-float{
+/* modal */
+#modal{
   position:fixed;
-  bottom:20px;
-  right:20px;
-  width:60px;
-  height:60px;
-  background:var(--green);
-  color:#fff;
-  border-radius:50%;
-  text-align:center;
-  font-size:32px;
-  line-height:60px;
-  text-decoration:none;
-  z-index:9999;
-}
-
-/* SUCCESS BAR */
-#success{
-  position:fixed;
-  top:-120px;
-  left:0;
-  width:100%;
-  background:#ecfdf5;
-  border-bottom:2px solid #bbf7d0;
-  transition:.4s;
-  z-index:10000;
-}
-#success.show{top:0}
-#success div{
-  max-width:1100px;
-  margin:auto;
-  padding:14px 20px;
-  display:flex;
-  justify-content:space-between;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
   align-items:center;
+  justify-content:center;
 }
-#success a{
-  background:var(--green);
+.modal-box{
+  background:#fff;
+  padding:26px;
+  border-radius:18px;
+  width:90%;
+  max-width:340px;
+  text-align:center;
+  animation:pop .4s ease;
+}
+.modal-box p{margin:10px 0}
+.modal-box a{
+  display:block;
+  background:#25D366;
   color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
   text-decoration:none;
 }
-
-@media(max-width:600px){
-  .hero h1{font-size:30px}
+.modal-box button{
+  background:#e5e7eb;
+  color:#111;
+  margin-top:10px;
 }
 </style>
 </head>
 <body>
 
-<!-- SUCCESS -->
-<div id="success">
-  <div>
-    <span>✅ Thanks! Your request has been received.</span>
-    <a href="https://wa.me/8801742313132" target="_blank">WhatsApp</a>
+<div class="container">
+  <h1>Smart’s Automation</h1>
+  <p>WhatsApp Automation Setup</p>
+
+  <div class="card">
+    <form id="leadForm"
+      action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
+      method="POST"
+      target="hidden">
+
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="name" placeholder="Full Name" required>
+
+      <div class="phone-row">
+        <input id="country" name="country_code" placeholder="+880 Bangladesh">
+        <input id="number" name="whatsapp" placeholder="WhatsApp Number" required>
+        <div id="list"></div>
+      </div>
+
+      <input type="text" name="business" placeholder="Business Type" required>
+      <textarea name="message" placeholder="Message / Requirement"></textarea>
+
+      <button id="btn" type="submit">Submit Request</button>
+    </form>
+    <iframe name="hidden" style="display:none"></iframe>
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h1>Smart’s Automation</h1>
-    <p>WhatsApp Automation • Lead Capture • Business Growth</p>
-    <a href="#form" class="btn">Get Started</a>
+<!-- THANK YOU MODAL -->
+<div id="modal">
+  <div class="modal-box">
+    <h3>🎉 Thank You!</h3>
+    <p>Your request has been received.</p>
+
+    <p style="font-size:14px;color:#64748b">
+      If you want, type or grab it 👇
+    </p>
+
+    <a href="https://wa.me/8801742313132" target="_blank">
+      💬 Contact on WhatsApp
+    </a>
+
+    <button onclick="closeModal()">Close</button>
   </div>
-</section>
-
-<!-- FEATURES -->
-<section>
-  <div class="container features">
-    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
-    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
-    <div class="feature"><h3>📈 Growth</h3><p>Increase conversion</p></div>
-  </div>
-</section>
-
-<!-- FORM -->
-<section id="form">
-  <div class="container">
-    <div class="form-box">
-      <h2>Get Automation Setup</h2>
-      <p style="color:#64748b;margin-bottom:20px">We will contact you shortly</p>
-
-      <form id="leadForm"
-        action="https://script.google.com/macros/s/AKfycbybXjHhyl-VKrUtVWDnejbUjpEgP6iUBzSF1eLPtqYchXyMmgjqYfey15pgQcUS6TKb/exec"
-        method="POST"
-        target="hidden">
-
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="text" name="name" placeholder="Your Full Name" required>
-
-        <div class="phone-row">
-          <input id="country" name="country_code" placeholder="+880" required>
-          <input id="number" name="whatsapp" placeholder="WhatsApp Number" required>
-          <div id="list"></div>
-        </div>
-
-        <input type="text" name="business" placeholder="Business Type" required>
-        <textarea name="message" placeholder="Message / Requirement"></textarea>
-
-        <button class="btn" type="submit">Submit Request</button>
-      </form>
-
-      <iframe name="hidden" style="display:none"></iframe>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta">
-  <h2>Ready to Automate?</h2>
-  <p>Smart’s Automation – Simple & Smart</p>
-  <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
-</section>
-
-<a href="https://wa.me/8801742313132" class="wa-float">💬</a>
+</div>
 
 <script>
-/* COUNTRY LIST (OFFLINE – MOBILE SAFE) */
+/* COUNTRY LIST (stable) */
 const countries=[
-["+880","🇧🇩 Bangladesh"],["+91","🇮🇳 India"],["+1","🇺🇸 USA"],["+44","🇬🇧 UK"],
-["+971","🇦🇪 UAE"],["+92","🇵🇰 Pakistan"],["+61","🇦🇺 Australia"],
-["+49","🇩🇪 Germany"],["+33","🇫🇷 France"],["+39","🇮🇹 Italy"],
-["+81","🇯🇵 Japan"],["+86","🇨🇳 China"],["+55","🇧🇷 Brazil"],
-["+27","🇿🇦 South Africa"],["+966","🇸🇦 Saudi Arabia"],
-["+60","🇲🇾 Malaysia"],["+65","🇸🇬 Singapore"],["+62","🇮🇩 Indonesia"],
-["+90","🇹🇷 Turkey"]
+["+880","Bangladesh"],["+91","India"],["+1","USA"],["+44","UK"],
+["+971","UAE"],["+92","Pakistan"],["+61","Australia"]
 ];
 
 const country=document.getElementById("country");
@@ -241,37 +162,42 @@ const list=document.getElementById("list");
 
 function show(q=""){
   list.innerHTML="";
-  countries.filter(c=>
+  countries.filter(c =>
     c[0].includes(q) || c[1].toLowerCase().includes(q.toLowerCase())
   ).forEach(c=>{
     const d=document.createElement("div");
     d.className="item";
-    d.textContent=`${c[1]} ${c[0]}`;
+    d.textContent=`${c[0]} ${c[1]}`;
     d.onclick=()=>{
-      country.value=c[0];
+      country.value=`${c[0]} ${c[1]}`;
       list.style.display="none";
     };
     list.appendChild(d);
   });
   list.style.display="block";
 }
-
 country.addEventListener("focus",()=>show());
 country.addEventListener("input",e=>show(e.target.value));
-country.addEventListener("click",()=>show());
 
-document.addEventListener("click",e=>{
-  if(!country.contains(e.target)) list.style.display="none";
-});
+/* default */
+if(country.value==="") country.value="+880 Bangladesh";
 
-/* SUCCESS BAR */
-const bar=document.getElementById("success");
-document.getElementById("leadForm").addEventListener("submit",()=>{
+/* submit UX */
+const form=document.getElementById("leadForm");
+const btn=document.getElementById("btn");
+form.addEventListener("submit",()=>{
+  btn.classList.add("loading");
+  btn.innerText="Submitting...";
   setTimeout(()=>{
-    bar.classList.add("show");
-    document.getElementById("leadForm").reset();
-  },500);
+    document.getElementById("modal").style.display="flex";
+    form.reset();
+    btn.classList.remove("loading");
+    btn.innerText="Submit Request";
+  },800);
 });
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
 </script>
 
 </body>
