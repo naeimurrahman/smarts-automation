@@ -6,11 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- SEO -->
-<meta name="description" content="Smart’s Automation provides WhatsApp Automation Dashboard with auto reply, lead capture and smart follow-up.">
+<meta name="description" content="Smart’s Automation WhatsApp Automation Dashboard with auto reply and lead capture.">
 <meta property="og:title" content="Smart’s Automation – WhatsApp Automation Dashboard">
-<meta property="og:description" content="Automate WhatsApp replies, capture leads and grow your business faster.">
+<meta property="og:description" content="Automate WhatsApp replies, capture leads and grow faster.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -25,9 +24,9 @@
 body{background:#fff;color:var(--dark);line-height:1.6}
 .container{max-width:1100px;margin:auto;padding:0 20px}
 .btn{
-  display:inline-block;background:var(--primary);color:#fff;
+  background:var(--primary);color:#fff;
   padding:14px 26px;border-radius:10px;
-  text-decoration:none;font-weight:600;border:none
+  border:none;font-weight:600
 }
 section{padding:70px 0}
 
@@ -37,7 +36,7 @@ section{padding:70px 0}
   display:grid;grid-template-columns:1fr 1fr;
   gap:40px;align-items:center
 }
-.hero h1{font-size:42px;line-height:1.2}
+.hero h1{font-size:40px;line-height:1.2}
 .hero p{color:var(--gray);margin:18px 0 28px}
 .hero img{
   width:100%;border-radius:18px;
@@ -47,7 +46,7 @@ section{padding:70px 0}
 /* FEATURES */
 .features{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:25px
 }
 .feature{background:var(--light);padding:25px;border-radius:16px}
@@ -58,7 +57,7 @@ section{padding:70px 0}
   padding:35px;border-radius:20px;
   box-shadow:0 25px 60px rgba(0,0,0,.08)
 }
-.form-box input, .form-box textarea{
+.form-box input,.form-box textarea{
   width:100%;padding:14px;margin-bottom:15px;
   border-radius:10px;border:1px solid #e5e7eb
 }
@@ -89,21 +88,19 @@ section{padding:70px 0}
   <div class="container hero-box">
     <div>
       <h1>Smart’s Automation<br>WhatsApp Automation Dashboard</h1>
-      <p>এক ড্যাশবোর্ডে Auto Reply, Lead Capture এবং Smart Follow-up।</p>
+      <p>Auto Reply, Lead Capture এবং Business Growth একসাথে।</p>
       <a href="https://wa.me/8801742313132" class="btn">Chat on WhatsApp 🚀</a>
     </div>
-    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900" alt="Automation Dashboard">
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900">
   </div>
 </section>
 
 <!-- FEATURES -->
 <section>
-  <div class="container">
-    <div class="features">
-      <div class="feature"><h3>📊 Live Dashboard</h3><p>Lead & message tracking</p></div>
-      <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
-      <div class="feature"><h3>📈 Business Growth</h3><p>More conversion</p></div>
-    </div>
+  <div class="container features">
+    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
+    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp response</p></div>
+    <div class="feature"><h3>📈 Growth</h3><p>More conversion</p></div>
   </div>
 </section>
 
@@ -133,31 +130,31 @@ section{padding:70px 0}
   <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
 </section>
 
-<!-- FLOATING BUTTON -->
 <a href="https://wa.me/8801742313132" class="wa-float">💬</a>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwhgVJ-i1igHExSMDef5NPDiBfNvi5P79tlj9ArFSEa6aAaZuNlj-7IXTLUWPUfNnVp/exec";
+const scriptURL =
+"https://script.google.com/macros/s/AKfycbwhgVJ-i1igHExSMDef5NPDiBfNvi5P79tlj9ArFSEa6aAaZuNlj-7IXTLUWPUfNnVp/exec";
 
 document.getElementById("leadForm").addEventListener("submit", function(e){
   e.preventDefault();
 
-  fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify({
-      email: email.value,
-      name: name.value,
-      whatsapp: whatsapp.value,
-      business: business.value,
-      message: message.value
+  fetch(scriptURL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      email:email.value,
+      name:name.value,
+      whatsapp:whatsapp.value,
+      business:business.value,
+      message:message.value
     })
-  })
-  .then(() => {
-    alert("✅ Submitted! We will contact you soon.");
-    window.open("https://wa.me/8801742313132","_blank");
-    this.reset();
-  })
-  .catch(() => alert("❌ Error! Please try again."));
+  });
+
+  alert("✅ Submitted! We will contact you shortly.");
+  window.open("https://wa.me/8801742313132","_blank");
+  this.reset();
 });
 </script>
 
