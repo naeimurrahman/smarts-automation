@@ -1,3 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart’s Automation | WhatsApp Automation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- =================================================
+     GLOBAL CSS (ALL SECTIONS)
+================================================= -->
+<style>
+:root{
+  --green:#25D366;
+  --dark:#0f172a;
+  --gray:#64748b;
+  --bg:#f8fafc;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#fff;color:var(--dark);line-height:1.6}
+
+.container{max-width:1100px;margin:auto;padding:0 20px}
+section{padding:70px 0}
+
+.btn{
+  background:var(--green);
+  color:#fff;
+  padding:14px 26px;
+  border-radius:10px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+/* FLOATING WHATSAPP */
+.wa-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:60px;
+  height:60px;
+  background:var(--green);
+  color:#fff;
+  border-radius:50%;
+  text-align:center;
+  font-size:32px;
+  line-height:60px;
+  text-decoration:none;
+  z-index:9999;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =================================================
+     SECTION 1 : HERO
+================================================= -->
+<section class="hero">
+  <div class="container">
+    <h1>Smart’s Automation</h1>
+    <p>WhatsApp Automation • Lead Capture • Business Growth</p>
+    <a href="#lead" class="btn">Get Started</a>
+  </div>
+</section>
+
+<style>
+.hero{
+  background:linear-gradient(180deg,#ecfdf5,#ffffff);
+  text-align:center;
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{color:var(--gray);margin-bottom:24px}
+@media(max-width:600px){
+  .hero h1{font-size:30px}
+}
+</style>
+
+<!-- =================================================
+     SECTION 2 : FEATURES
+================================================= -->
+<section>
+  <div class="container features">
+    <div class="feature">
+      <h3>📊 Dashboard</h3>
+      <p>All leads in one place</p>
+    </div>
+    <div class="feature">
+      <h3>🤖 Auto Reply</h3>
+      <p>24/7 WhatsApp & Email response</p>
+    </div>
+    <div class="feature">
+      <h3>📈 Growth</h3>
+      <p>Higher conversion rate</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+.feature{
+  background:var(--bg);
+  padding:26px;
+  border-radius:16px;
+}
+</style>
+
+<!-- =================================================
+     SECTION 3 : LEAD FORM
+================================================= -->
 <!-- =================================================
      SECTION : LEAD FORM (PRODUCTION READY)
 ================================================= -->
@@ -258,3 +372,94 @@
   </script>
 
 </section>
+
+
+<!-- =================================================
+     SECTION 4 : CTA
+================================================= -->
+<section class="cta">
+  <h2>Ready to Automate?</h2>
+  <p>Smart’s Automation – Simple & Smart</p>
+  <a href="https://wa.me/8801742313132" class="btn">
+    Start on WhatsApp
+  </a>
+</section>
+
+<style>
+.cta{
+  background:var(--dark);
+  color:#fff;
+  text-align:center;
+}
+.cta p{
+  color:#cbd5f5;
+  margin:15px 0 30px;
+}
+</style>
+
+<!-- =================================================
+     FLOATING WHATSAPP BUTTON
+================================================= -->
+<a href="https://wa.me/8801742313132" class="wa-float">💬</a>
+
+<!-- =================================================
+     SECTION 5 : THANK YOU MODAL + JS
+================================================= -->
+<div id="modal">
+  <div class="modal-box">
+    <h3>🎉 Thank You!</h3>
+    <p>Your request has been received.</p>
+    <a href="https://wa.me/8801742313132">💬 Contact on WhatsApp</a>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<style>
+#modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+.modal-box{
+  background:#fff;
+  padding:26px;
+  border-radius:18px;
+  width:90%;
+  max-width:360px;
+  text-align:center;
+}
+.modal-box a{
+  display:block;
+  background:var(--green);
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+  margin-top:8px;
+  text-decoration:none;
+}
+.modal-box button{
+  background:#e5e7eb;
+  margin-top:10px;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+}
+</style>
+
+<script>
+document.getElementById("leadForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  document.getElementById("modal").style.display="flex";
+  this.reset();
+});
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+</script>
+
+</body>
+</html>
