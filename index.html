@@ -63,7 +63,9 @@ section{padding:70px 0}
   from{opacity:0;transform:translateY(30px) scale(.96)}
   to{opacity:1;transform:none}
 }
-.form-wrap input,.form-wrap textarea,.form-wrap button{
+.form-wrap input,
+.form-wrap textarea,
+.form-wrap button{
   width:100%;
   padding:14px;
   margin-bottom:14px;
@@ -101,7 +103,11 @@ section{padding:70px 0}
   display:none;
   z-index:9999;
 }
-.item{padding:10px;font-size:14px;cursor:pointer}
+.item{
+  padding:10px;
+  font-size:14px;
+  cursor:pointer;
+}
 .item:hover{background:#f1f5f9}
 
 /* CTA */
@@ -247,15 +253,17 @@ section{padding:70px 0}
 </div>
 
 <script>
-/* COUNTRY DROPDOWN (stable, mobile-safe) */
+/* ===== COUNTRY LIST (OFFLINE, STABLE) ===== */
 const countries=[
 ["+880","Bangladesh"],["+91","India"],["+1","USA"],["+44","UK"],
 ["+971","UAE"],["+92","Pakistan"],["+61","Australia"],
 ["+49","Germany"],["+33","France"],["+39","Italy"]
 ];
+
 const country=document.getElementById("country");
 const list=document.getElementById("list");
 
+/* DROPDOWN */
 function show(q=""){
   list.innerHTML="";
   countries.filter(c =>
@@ -274,8 +282,29 @@ function show(q=""){
 }
 country.addEventListener("focus",()=>show());
 country.addEventListener("input",e=>show(e.target.value));
+country.addEventListener("click",()=>show());
 
-if(country.value==="") country.value="+880 Bangladesh";
+/* AUTO COUNTRY BY VISITOR (fallback +880) */
+fetch("https://ipapi.co/json/")
+.then(r=>r.json())
+.then(d=>{
+  const map={
+    BD:"+880 Bangladesh",
+    IN:"+91 India",
+    US:"+1 USA",
+    GB:"+44 UK",
+    AE:"+971 UAE",
+    PK:"+92 Pakistan",
+    AU:"+61 Australia",
+    DE:"+49 Germany",
+    FR:"+33 France",
+    IT:"+39 Italy"
+  };
+  country.value = map[d.country_code] || "+880 Bangladesh";
+})
+.catch(()=>{
+  country.value="+880 Bangladesh";
+});
 
 /* SUBMIT UX */
 const form=document.getElementById("leadForm");
