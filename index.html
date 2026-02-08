@@ -1,38 +1,124 @@
-<!-- SUCCESS MODAL -->
-<div id="saModal" class="sa-overlay">
-  <div class="sa-box">
-
-    <h3 id="saTitle">✅ Request Received</h3>
-
-    <p id="saText">
-      📧 Sending confirmation email…<br>
-      💬 Preparing WhatsApp message…
-    </p>
-
-    <div id="saLoader" style="margin:14px 0;font-size:18px">
-      ⏳ Please wait…
-    </div>
-
-    <a
-      id="saWhatsApp"
-      href="https://wa.me/8801742313132"
-      class="btn"
-      style="display:none"
-      target="_blank"
-    >
-      💬 Chat on WhatsApp
-    </a>
-
-    <br>
-
-    <button class="sa-close" onclick="closeSA()">
-      I’ll message later
-    </button>
-
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart’s Automation | WhatsApp Automation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+:root{
+  --green:#25D366;
+  --dark:#0f172a;
+  --gray:#64748b;
+  --bg:#f8fafc;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#fff;color:var(--dark);line-height:1.6}
+.container{max-width:1100px;margin:auto;padding:0 20px}
+section{padding:70px 0}
+.btn{
+  background:var(--green);
+  color:#fff;
+  padding:14px 26px;
+  border-radius:10px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,#ecfdf5,#ffffff);
+  text-align:center;
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{color:var(--gray);margin-bottom:24px}
+
+/* FEATURES */
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+.feature{
+  background:var(--bg);
+  padding:26px;
+  border-radius:16px;
+}
+
+/* FORM */
+.form-wrap{
+  max-width:520px;
+  margin:auto;
+  background:#fff;
+  padding:36px;
+  border-radius:22px;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
+}
+.form-title{text-align:center;margin-bottom:6px}
+.form-sub{text-align:center;color:var(--gray);margin-bottom:20px}
+
+.form-wrap input,
+.form-wrap select,
+.form-wrap textarea{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  font-size:15px;
+}
+
+.step{display:none}
+.step.active{display:block}
+
+.nav{display:flex;gap:10px}
+.ghost{
+  flex:1;
+  background:#e5e7eb;
+  border:none;
+  border-radius:10px;
+  padding:14px;
+  cursor:pointer;
+}
+
+/* WhatsApp */
+.wa-label{font-size:14px;margin-bottom:6px;display:block}
+.wa-section{display:flex;gap:10px;align-items:center}
+.wa-country{
+  background:#f1f5f9;
+  padding:14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* CTA */
+.cta{
+  background:var(--dark);
+  color:#fff;
+  text-align:center;
+}
+.cta p{color:#cbd5f5;margin:15px 0 30px}
+
+/* Floating WhatsApp */
+.wa-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:60px;
+  height:60px;
+  background:var(--green);
+  color:#fff;
+  border-radius:50%;
+  text-align:center;
+  font-size:32px;
+  line-height:60px;
+  text-decoration:none;
+  z-index:9999;
+}
+
+/* ===== SUCCESS MODAL ===== */
 .sa-overlay{
   position:fixed;
   inset:0;
@@ -65,21 +151,149 @@
   cursor:pointer;
   margin-top:12px;
 }
+
+@media(max-width:600px){
+  .hero h1{font-size:30px}
+}
 </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Smart’s Automation</h1>
+    <p>WhatsApp Automation • Lead Capture • Business Growth</p>
+    <a href="#lead" class="btn">Get Started</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container features">
+    <div class="feature"><h3>📊 Dashboard</h3><p>All leads in one place</p></div>
+    <div class="feature"><h3>🤖 Auto Reply</h3><p>24/7 WhatsApp & Email response</p></div>
+    <div class="feature"><h3>📈 Growth</h3><p>Higher conversion rate</p></div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section id="lead">
+  <div class="container">
+    <div class="form-wrap">
+
+      <h2 class="form-title">Get Automation Setup</h2>
+      <p class="form-sub">We will contact you shortly</p>
+
+      <form
+        id="leadForm"
+        method="POST"
+        action="https://script.google.com/macros/s/AKfycbyPd6fLr5c9gi5Laz-FWvQv5Fu87DmpjvdnruRrFzQ3UnaGa64yNCMz9nHAJPDJaf9C/exec"
+        target="hiddenFrame"
+      >
+
+        <!-- STEP 1 -->
+        <div class="step active">
+          <input name="name" placeholder="Full Name" required>
+          <input name="email" placeholder="Email Address" required>
+          <button type="button" class="btn" onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+          <label class="wa-label">WhatsApp Number</label>
+          <div class="wa-section">
+            <div class="wa-country">🇧🇩 +880</div>
+            <input id="waNumber" placeholder="WhatsApp Number">
+          </div>
+          <input type="hidden" name="whatsapp" id="waFinal">
+          <div class="nav">
+            <button type="button" class="ghost" onclick="prevStep()">Back</button>
+            <button type="button" class="btn" onclick="saveWA()">Continue</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+          <select name="business" required>
+            <option value="">Select Business Type</option>
+            <option>Agency</option>
+            <option>E-commerce</option>
+            <option>Service Provider</option>
+            <option>Local Business</option>
+            <option>Personal Brand</option>
+          </select>
+          <textarea name="message" placeholder="Message / Requirement"></textarea>
+          <div class="nav">
+            <button type="button" class="ghost" onclick="prevStep()">Back</button>
+            <button type="submit" class="btn">Submit Request</button>
+          </div>
+        </div>
+
+      </form>
+      <iframe name="hiddenFrame" style="display:none"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to Automate?</h2>
+  <p>Smart’s Automation – Simple & Smart</p>
+  <a href="https://wa.me/8801742313132" class="btn">Start on WhatsApp</a>
+</section>
+
+<a href="https://wa.me/8801742313132" class="wa-float">💬</a>
+
+<!-- SUCCESS MODAL -->
+<div id="saModal" class="sa-overlay">
+  <div class="sa-box">
+    <h3>✅ Request Received</h3>
+    <p id="saText">
+      📧 Sending confirmation email…<br>
+      💬 Preparing WhatsApp message…
+    </p>
+    <div id="saLoader">⏳ Please wait…</div>
+    <a
+      id="saWhatsApp"
+      href="https://wa.me/8801742313132"
+      class="btn"
+      style="display:none"
+      target="_blank"
+    >
+      💬 Chat on WhatsApp
+    </a>
+    <button class="sa-close" onclick="closeSA()">I’ll message later</button>
+  </div>
+</div>
 
 <script>
-/* SUCCESS MODAL LOGIC */
-document.getElementById("leadForm").addEventListener("submit",function(){
-  const modal = document.getElementById("saModal");
-  modal.style.display="flex";
+/* FORM WIZARD */
+let step=0;
+const steps=document.querySelectorAll(".step");
+function render(){steps.forEach((s,i)=>s.classList.toggle("active",i===step));}
+render();
+function nextStep(){step++;render();}
+function prevStep(){step--;render();}
 
-  // After 2.5 sec → show final state
+function saveWA(){
+  let v=document.getElementById("waNumber").value.replace(/\D/g,"");
+  if(v.startsWith("0"))v=v.slice(1);
+  if(v.length===10){
+    document.getElementById("waFinal").value="+880"+v;
+    nextStep();
+  }
+}
+
+/* SUCCESS FLOW (OPTION 4) */
+document.getElementById("leadForm").addEventListener("submit",function(){
+  document.getElementById("saModal").style.display="flex";
+
   setTimeout(()=>{
     document.getElementById("saText").innerHTML =
       "✅ Confirmation email sent (check inbox or spam)<br>" +
       "💬 We’ll contact you on WhatsApp shortly<br><br>" +
       "<small>If you don’t receive anything within 2 minutes, please contact us directly.</small>";
-
     document.getElementById("saLoader").style.display="none";
     document.getElementById("saWhatsApp").style.display="block";
   },2500);
@@ -89,3 +303,6 @@ function closeSA(){
   document.getElementById("saModal").style.display="none";
 }
 </script>
+
+</body>
+</html>
