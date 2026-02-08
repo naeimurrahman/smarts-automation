@@ -116,11 +116,16 @@ section{padding:70px 0}
   <div class="container">
 
     <div class="form-wrap">
-
       <h2 class="form-title">Get Automation Setup</h2>
       <p class="form-sub">We will contact you shortly</p>
 
-      <form id="leadForm">
+      <!-- ================= FORM ================= -->
+      <form
+        id="leadForm"
+        method="POST"
+        action="https://script.google.com/macros/s/AKfycbyJr34tDJW_uppGP5RFY2IJHus7onyy2gWZBXvLt_dqiQKXjHs4NASNw_NWj9CVzTWX/exec"
+        target="hiddenFrame"
+      >
 
         <!-- ================= STEP 1 : NAME + EMAIL ================= -->
         <div class="step active" id="stepBasic">
@@ -128,6 +133,7 @@ section{padding:70px 0}
           <input
             type="text"
             id="fullName"
+            name="name"
             placeholder="Full Name"
             autocomplete="name"
             required
@@ -137,20 +143,16 @@ section{padding:70px 0}
           <input
             type="email"
             id="email"
+            name="email"
             placeholder="Email Address"
             autocomplete="email"
             required
           >
           <div class="field-error" id="emailError"></div>
 
-          <button
-            type="button"
-            class="btn glow-btn"
-            onclick="nextStepBasic()"
-          >
+          <button type="button" class="btn glow-btn" onclick="nextStepBasic()">
             Continue
           </button>
-
         </div>
 
         <!-- ================= STEP 2 : WHATSAPP ================= -->
@@ -173,7 +175,7 @@ section{padding:70px 0}
           <div class="wa-error" id="waError"></div>
           <input type="hidden" name="whatsapp" id="waFinal">
 
-          <!-- country dropdown -->
+          <!-- Country Dropdown -->
           <div class="wa-dropdown" id="waDropdown">
             <input type="text" id="waSearch" placeholder="Search country">
             <div class="wa-list" id="waList"></div>
@@ -185,13 +187,12 @@ section{padding:70px 0}
               Continue
             </button>
           </div>
-
         </div>
 
         <!-- ================= STEP 3 : BUSINESS ================= -->
         <div class="step">
 
-          <select id="business" required>
+          <select id="business" name="business" required>
             <option value="">Select Business Type</option>
             <option>Agency</option>
             <option>E-commerce</option>
@@ -200,16 +201,25 @@ section{padding:70px 0}
             <option>Personal Brand</option>
           </select>
 
-          <textarea id="message" placeholder="Message / Requirement"></textarea>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Message / Requirement"
+          ></textarea>
 
           <div class="nav">
             <button type="button" class="ghost" onclick="prevStep()">Go back</button>
-            <button type="submit" class="btn">Submit Request</button>
+            <button type="submit" class="btn">
+              Submit Request
+            </button>
           </div>
-
         </div>
 
       </form>
+
+      <!-- prevent page reload -->
+      <iframe name="hiddenFrame" style="display:none"></iframe>
+
     </div>
   </div>
 
@@ -250,18 +260,14 @@ section{padding:70px 0}
     cursor:pointer;
   }
 
-  /* errors */
   .field-error,
   .wa-error{
     font-size:13px;
     color:#dc2626;
     margin:-8px 0 10px;
   }
-  .input-error{
-    border-color:#dc2626 !important;
-  }
+  .input-error{border-color:#dc2626!important}
 
-  /* glow */
   .glow-btn{position:relative;overflow:hidden}
   .glow-btn::after{
     content:"";
@@ -309,68 +315,59 @@ section{padding:70px 0}
   <!-- ================= JS ================= -->
   <script>
   /* ---------- Wizard ---------- */
-  let step = 0;
-  const steps = document.querySelectorAll("#lead .step");
+  let step=0;
+  const steps=document.querySelectorAll("#lead .step");
   function updateSteps(){
     steps.forEach((s,i)=>s.classList.toggle("active",i===step));
   }
-  function prevStep(){
-    if(step>0){step--;updateSteps();}
-  }
+  function prevStep(){ if(step>0){step--;updateSteps();} }
   updateSteps();
 
-  /* ---------- NAME + EMAIL ---------- */
-  const nameInput  = document.getElementById("fullName");
-  const emailInput = document.getElementById("email");
-  const nameError  = document.getElementById("nameError");
-  const emailError = document.getElementById("emailError");
+  /* ---------- Name + Email ---------- */
+  const nameInput=document.getElementById("fullName");
+  const emailInput=document.getElementById("email");
+  const nameError=document.getElementById("nameError");
+  const emailError=document.getElementById("emailError");
 
-  const nameRegex  = /^[A-Za-z ]{2,40}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  const blockedDomains=["tempmail","mailinator","10minutemail","guerrillamail"];
+  const nameRegex=/^[A-Za-z ]{2,40}$/;
+  const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const blocked=["tempmail","mailinator","10minutemail","guerrillamail"];
 
   function nextStepBasic(){
-    nameError.textContent="";
-    emailError.textContent="";
+    nameError.textContent="";emailError.textContent="";
     nameInput.classList.remove("input-error");
     emailInput.classList.remove("input-error");
 
     let ok=true;
-
     const name=nameInput.value.trim();
     const email=emailInput.value.trim().toLowerCase();
-
-    nameInput.value=name;
-    emailInput.value=email;
+    nameInput.value=name; emailInput.value=email;
 
     if(!nameRegex.test(name)){
       nameError.textContent="Enter a valid full name";
       nameInput.classList.add("input-error");
       ok=false;
     }
-
     if(!emailRegex.test(email)){
       emailError.textContent="Enter a valid email address";
       emailInput.classList.add("input-error");
       ok=false;
     }else{
       const domain=email.split("@")[1];
-      if(blockedDomains.some(d=>domain.includes(d))){
+      if(blocked.some(d=>domain.includes(d))){
         emailError.textContent="Temporary emails are not allowed";
         emailInput.classList.add("input-error");
         ok=false;
       }
     }
-
     if(ok){
-      const btn=document.querySelector("#stepBasic .glow-btn");
-      btn.classList.add("glow");
-      setTimeout(()=>btn.classList.remove("glow"),250);
+      document.querySelector("#stepBasic .glow-btn").classList.add("glow");
+      setTimeout(()=>document.querySelector("#stepBasic .glow-btn").classList.remove("glow"),250);
       step++;updateSteps();
     }
   }
 
-  /* ---------- WHATSAPP ---------- */
+  /* ---------- WhatsApp ---------- */
   const waCountries=[
     {n:"Bangladesh",c:"+880",l:10,f:"🇧🇩"},
     {n:"India",c:"+91",l:10,f:"🇮🇳"},
@@ -404,7 +401,6 @@ section{padding:70px 0}
     });
   }
   renderList();
-
   waBtn.onclick=()=>{waDrop.style.display="block";waSearch.focus();}
   waSearch.oninput=e=>renderList(e.target.value);
 
