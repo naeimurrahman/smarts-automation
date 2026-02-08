@@ -1,1 +1,91 @@
+<!-- SUCCESS MODAL -->
+<div id="saModal" class="sa-overlay">
+  <div class="sa-box">
 
+    <h3 id="saTitle">✅ Request Received</h3>
+
+    <p id="saText">
+      📧 Sending confirmation email…<br>
+      💬 Preparing WhatsApp message…
+    </p>
+
+    <div id="saLoader" style="margin:14px 0;font-size:18px">
+      ⏳ Please wait…
+    </div>
+
+    <a
+      id="saWhatsApp"
+      href="https://wa.me/8801742313132"
+      class="btn"
+      style="display:none"
+      target="_blank"
+    >
+      💬 Chat on WhatsApp
+    </a>
+
+    <br>
+
+    <button class="sa-close" onclick="closeSA()">
+      I’ll message later
+    </button>
+
+  </div>
+</div>
+
+<style>
+.sa-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+.sa-box{
+  background:#fff;
+  width:90%;
+  max-width:360px;
+  padding:28px;
+  border-radius:18px;
+  text-align:center;
+  animation:saPop .4s ease;
+}
+@keyframes saPop{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
+.sa-box p{font-size:14px;color:#64748b}
+.sa-close{
+  background:#e5e7eb;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+  margin-top:12px;
+}
+</style>
+
+<script>
+/* SUCCESS MODAL LOGIC */
+document.getElementById("leadForm").addEventListener("submit",function(){
+  const modal = document.getElementById("saModal");
+  modal.style.display="flex";
+
+  // After 2.5 sec → show final state
+  setTimeout(()=>{
+    document.getElementById("saText").innerHTML =
+      "✅ Confirmation email sent (check inbox or spam)<br>" +
+      "💬 We’ll contact you on WhatsApp shortly<br><br>" +
+      "<small>If you don’t receive anything within 2 minutes, please contact us directly.</small>";
+
+    document.getElementById("saLoader").style.display="none";
+    document.getElementById("saWhatsApp").style.display="block";
+  },2500);
+});
+
+function closeSA(){
+  document.getElementById("saModal").style.display="none";
+}
+</script>
